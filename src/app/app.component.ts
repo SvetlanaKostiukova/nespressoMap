@@ -66,18 +66,21 @@ export class AppComponent {
     if(this.svg){
       var svgDiv:HTMLElement = this.svg.nativeElement;
       console.log(e.blend.countries);
-      for(var i = 0; e.blend.countries.length; i++){
+      for(var j = 0; j < this.lines.length; j++){
+        svgDiv.removeChild(this.lines[j]);
+      }
+      this.lines = [];
+      for(var i = 0; i < e.blend.countries.length; i++){
         var country = e.blend.countries[i];
         var countrySearch = this.countries.find((x) => x.classTitle == country);
-        console.log(countrySearch);
-        // if(countrySearch){
-        //   var line = this.drawLine(e.x, e.y, countrySearch.coordX, countrySearch.coordY);
-        //   console.log(line);
-        //   //svgDiv.appendChild(line);
-        //   this.lines.push(line);
-        // }
+        if(countrySearch){
+          var line = this.drawLine(e.x, e.y, countrySearch.coordX, countrySearch.coordY);
+          console.log(line);
+          svgDiv.appendChild(line);
+          this.lines.push(line);
+        }
       }
-      console.log("end")
+      console.log("end");
     }
   }
 
@@ -87,7 +90,7 @@ export class AppComponent {
     line.setAttribute("y1", y1);
     line.setAttribute("x2", x2);
     line.setAttribute("y2", y2);
-    // line.setAttribute("style", "fill:none;stroke:#673766;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;stroke-dasharray:0,11");
+    line.setAttribute("style", "fill:none;stroke:#673766;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;stroke-dasharray:0,11");
     return line;
   }
 

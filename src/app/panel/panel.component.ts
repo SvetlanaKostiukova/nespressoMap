@@ -22,8 +22,13 @@ export class PanelComponent implements OnInit {
   }
 
   onSelect(e:any, blend: any){
-    console.log(e);
     this.selectedIdx = this.blends.indexOf(blend);
-    this.onBlendSelected.emit({ blend: blend, x:e.clientX, y:e.clientY });
+    var x = e.clientX;
+    var y = e.clientY;
+    var elem = e.target;
+
+    x = elem.offsetLeft + 37;
+    y = elem.offsetParent.offsetTop + 28;
+    this.onBlendSelected.emit({ blend: blend, x:x, y:y });
   }
 }
