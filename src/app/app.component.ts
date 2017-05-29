@@ -8,7 +8,8 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 export class AppComponent {
   @ViewChild('svg') svg:ElementRef;
   title = 'app works!';
-  selectedBlend:number = 0;
+  showPopup:boolean = false;
+  selectedBlend:number = -1;
   selectedCountry:number = -1;
   lines:any[] = [];
   countries:any[] = [
@@ -54,6 +55,7 @@ export class AppComponent {
     console.log(searchCountry)
     this.selectedCountry = this.countries.indexOf(searchCountry);
     if(this.selectedCountry > -1){
+      this.showPopup = true;
       var path = document.querySelector("path." + countryClicked);
       path.classList.add("hidden");
       var polygon = document.querySelector("polygon#" + countryClicked);
@@ -96,6 +98,7 @@ export class AppComponent {
 
   onClosePopup(e: any){
     this.selectedCountry = -1;
+    this.showPopup = false;
     var path = document.querySelector("path.hidden");
     if(path)
       path.classList.remove("hidden");

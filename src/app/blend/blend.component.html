@@ -1,5 +1,5 @@
-<div *ngIf="blend" class="blend">
-  <header>
+<div class="blend" [class.empty]="!blend">
+  <header *ngIf="blend">
     <div class="left">
       <div class="title">Бленд Nespresso:</div>
       <div class="subtitle" [innerHTML]="blend.title"></div>
@@ -8,5 +8,5 @@
       <a href="" target="_blank"><div class="nespresso"></div></a>
     </div>
   </header>
-  <main [innerHTML]="blend.description"></main>
+  <main *ngIf="blend" [innerHTML]="blend.description"></main>
 </div>

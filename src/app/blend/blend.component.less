@@ -1,20 +1,34 @@
 .blend{
+    position:relative;
+    top:-10px;
     width:540px;
     height:auto;//140px;
     border:10px solid #f4e1c1;
     background-color:white;
     margin:0 auto;
     padding:20px;
+    transition: background-color, height .5s;
+
+    &.empty{
+        background-color:#f4e1c1;
+        height:140px;
+    }
 
     @media(max-width:649px){
         width:calc(~"100% - 40px");
+        top:0;
         border:none;
+
+        &.empty{
+            border:none;
+            background-color:white;
+        }
     }
 
     header{
         display: flex;
         justify-content: space-between;
-        padding-bottom: 20px;
+        padding-bottom: 15px;
 
         .left{
             .title{

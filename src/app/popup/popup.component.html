@@ -1,5 +1,4 @@
-<div #popup *ngIf="country" class="popup" [class.right]="isRight">
-   <!--[style.top]="calculateTop()" [style.left]="calculateLeft()">-->
+<div class="popup" *ngIf="country" [@popUp] [class.right]="isRight" #popup>
   <div class="arrow"></div>
   <div class="bg">
     <header>

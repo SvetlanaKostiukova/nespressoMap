@@ -1,9 +1,21 @@
 import { Component, OnInit, OnChanges, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { trigger, state, transition, animate, style } from "@angular/animations";
 
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.less']
+  styleUrls: ['./popup.component.less'],
+  animations:[
+    trigger('popUp', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate("0.3s ease-out", style({ opacity: 1}))
+      ]),
+      transition(":leave", [
+        animate("0.3s ease-out", style({ opacity: 0 }))
+      ])
+    ]),
+  ]
 })
 export class PopupComponent implements OnInit, OnChanges {
   @Input() country:any;

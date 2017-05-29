@@ -8,7 +8,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PanelComponent implements OnInit {
   @Input() blends:any[] = [];
-  selectedIdx:number = 0;
+  firstIdx:number = 0;
+  leftShift:string = "0%";
+  selectedIdx:number = -1;
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private sanitizer: DomSanitizer) { }
@@ -22,13 +24,23 @@ export class PanelComponent implements OnInit {
   }
 
   onSelect(e:any, blend: any){
+    console.log(e)
     this.selectedIdx = this.blends.indexOf(blend);
     var x = e.clientX;
     var y = e.clientY;
     var elem = e.target;
 
-    x = elem.offsetLeft + 37;
-    y = elem.offsetParent.offsetTop + 28;
+    x = elem.offsetLeft + 28;
+    y = elem.offsetParent.offsetTop + 20;
     this.onBlendSelected.emit({ blend: blend, x:x, y:y });
+  }
+
+  onShift(forward: boolean){
+    this.firstIdx += forward? 1: -1;
+    if(this.firstIdx < 0)
+      this.firstIdx = this.blends.length - 1;
+    else if(this.firstIdx > this.blends.length  - 1)
+      this.firstIdx = 0;
+    this.leftShift = -25*this.firstIdx + "%"; 
   }
 }

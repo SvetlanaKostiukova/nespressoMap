@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BlendComponent } from './blend/blend.component';
 import { PopupComponent } from './popup/popup.component';
 import { PanelComponent } from './panel/panel.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PanelComponent } from './panel/panel.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

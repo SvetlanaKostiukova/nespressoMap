@@ -1,10 +1,10 @@
 <div class="panel">
-  <div class="arrow left"></div>
-  <ul>
+  <div class="arrow left" (click)="onShift(false)"></div>
+  <ul [style.left]="leftShift">
     <li *ngFor="let blend of blends;let i=index;" class="blend-item" [class.selected]="i==selectedIdx" (click)="onSelect($event, blend)">
       <div class="icon" [style.background-image]="sanitize(blend.img)"></div>
       <div class="title" [innerHTML]="blend.title"></div>
     </li>
   </ul>
-  <div class="arrow right"></div>
+  <div class="arrow right" (click)="onShift(true)"></div>
 </div>

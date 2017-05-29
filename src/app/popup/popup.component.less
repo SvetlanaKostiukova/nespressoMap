@@ -4,9 +4,10 @@
     height:auto;
     //min-height:200px;
     background-color:#673766;
+    transition: top, left .3s;
 
     @media(max-width:649px){
-        //position: static;
+        position: static;
         top:0 !important;
         left:0 !important;
         width:100%;
@@ -84,6 +85,10 @@
         }
         .bg{
             left:6px;
+
+            @media(max-width:649px){
+                left:0;
+            }
         }
     }
 }

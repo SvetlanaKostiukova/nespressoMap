@@ -1,20 +1,36 @@
 .panel{
     position: relative;
-    top:-28px;
+    top:-20px;
     padding: 0 25px;
+
+    @media(max-width:649px){
+        //width:100%;
+        //top:0;
+        display: flex;
+        justify-content: space-between;
+        padding:0;
+        top:0;
+        max-width:calc(~"100% - 50px");
+        margin:0 25px;
+        overflow:hidden;
+    }
     
     .arrow{
+        position:absolute;  
         display: none;
-        height:11px;
-        width:11px;
+        height:26px;
+        width:12px;
+        //min-width:11px;
         transition: opacity .3s;
         &.left{
-            background:url("./../../assets/images/left.svg") no-repeat center left;
+            left:-12px;
+            background:url("./../../assets/images/left.svg") no-repeat center right;
             background-size: cover;
         }
 
         &.right{
-            background:url("./../../assets/images/right.svg") no-repeat center right;
+            right:-12px;
+            background:url("./../../assets/images/right.svg") no-repeat center left;
             background-size: cover;
         }
 
@@ -35,19 +51,32 @@
         padding:0;
         list-style: none;
 
+        @media(max-width:649px){
+            position: relative;
+            max-width:100%;//calc(~"100% - 50px");
+            //overflow:hidden; 
+        }
+
         .blend-item{
-            width:75px;
+            width:70px;
             height:90px;
+
+            @media(max-width:649px){
+                width:25%;
+                min-width:25%;
+            }
+
             .icon{
                 margin:0 auto;
                 width:48px;
                 height:48px;
                 background: no-repeat center;
                 background-size:contain;
-                transition:width, height .3s;
+                transition:transform .3s;//width, height .3s;
             }
 
             .title{
+                padding-top:5px;
                 font: 14px/16px 'Roboto Condensed';
                 color: #8D734A;
                 text-align:center;
@@ -57,11 +86,13 @@
             &:hover,
             &.selected{
                 .icon{
-                    width:56px;
-                    height:56px;
+                    transform: scale(1.16, 1.16);
+                    // width:56px;
+                    // height:56px;
                 }
 
                 .title{
+                    //padding-top:10px;
                     color:#333333;
                 }
             }
