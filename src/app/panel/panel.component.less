@@ -1,0 +1,68 @@
+.panel{
+    padding: 0 25px;
+    
+    .arrow{
+        display: none;
+        height:11px;
+        width:11px;
+        transition: opacity .3s;
+        &.left{
+            background:url("./../../assets/images/left.svg") no-repeat center left;
+            background-size: cover;
+        }
+
+        &.right{
+            background:url("./../../assets/images/right.svg") no-repeat center right;
+            background-size: cover;
+        }
+
+        &:hover{
+            opacity:0.8;
+        }
+
+        @media(max-width:649px){
+            display: block;
+        }
+    }
+
+    ul{
+        display: flex;
+        justify-content: space-between;
+        cursor:pointer;
+        margin:0;
+        padding:0;
+        list-style: none;
+
+        .blend-item{
+            width:75px;
+            height:90px;
+            .icon{
+                margin:0 auto;
+                width:48px;
+                height:48px;
+                background: no-repeat center;
+                background-size:contain;
+                transition:width, height .3s;
+            }
+
+            .title{
+                font: 14px/16px 'Roboto Condensed';
+                color: #8D734A;
+                text-align:center;
+                cursor:pointer;
+            }
+
+            &:hover,
+            &.selected{
+                .icon{
+                    width:56px;
+                    height:56px;
+                }
+
+                .title{
+                    color:#333333;
+                }
+            }
+        }
+    }
+}

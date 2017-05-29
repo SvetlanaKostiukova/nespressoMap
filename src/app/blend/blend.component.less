@@ -1,0 +1,58 @@
+.blend{
+    width:540px;
+    height:auto;//140px;
+    border:10px solid #f4e1c1;
+    background-color:white;
+    margin:0 auto;
+    padding:20px;
+
+    @media(max-width:649px){
+        width:calc(~"100% - 40px");
+        border:none;
+    }
+
+    header{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 20px;
+
+        .left{
+            .title{
+                font: 14px/16px 'Roboto Condensed';
+                color:#333333;
+                cursor:default;
+                padding-bottom: 5px;
+            }
+
+            .subtitle{
+                font: bold 16px/20px 'Roboto Slab';
+                color:#D64636;
+                text-transform: uppercase;
+                cursor:default;
+            }
+        }
+
+        .right{
+            a{
+                cursor:pointer;
+                transition:opacity .3s;
+                .nespresso{
+                    width:100px;
+                    height:15px;
+                    background: url("./../../assets/images/nespresso.svg") no-repeat center;
+                    background-size: contain;
+                }
+
+                &:hover{
+                    opacity:0.8;
+                }
+            }
+        }
+    }
+
+    main{
+        font: 16px/20px 'Roboto Condensed';
+        color:#333333;
+        cursor:default;
+    }
+}

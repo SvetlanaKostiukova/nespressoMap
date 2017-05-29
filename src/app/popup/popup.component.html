@@ -1,0 +1,11 @@
+<div #popup *ngIf="country" class="popup" [class.right]="isRight">
+   <!--[style.top]="calculateTop()" [style.left]="calculateLeft()">-->
+  <div class="arrow"></div>
+  <div class="bg">
+    <header>
+      <div class="title" [innerHTML]="country.title"></div>
+      <div class="close" (click)="onClose()"></div>
+    </header>
+    <main [innerHTML]="country.description"></main>
+  </div>
+</div>

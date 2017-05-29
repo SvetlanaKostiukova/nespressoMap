@@ -1,0 +1,71 @@
+.app{
+    width:650px;
+    height:720px;
+    background: url("./../assets/images/bg.png");
+    background-size:cover;
+
+    @media(max-width:649px){
+        width:100%;
+    }
+
+    .map-bg{
+        width:100%;
+        height:auto;
+        background: url("./../assets/images/map4.png") no-repeat top center;
+        background-size:100% auto;
+
+        svg{
+            polygon, path{
+                cursor: pointer;
+            }
+
+            polygon{
+                transition: fill .3s;
+                &.hover{
+                    display: none;
+                }
+                
+                &:hover,
+                &.selected{
+                    fill:#1996A2;
+                }
+            }
+
+            path{
+                transition: opacity .3s;
+                &:hover{
+                    opacity:0.8;
+                }
+
+                &.hidden{
+                    opacity: 0;
+                }
+            }
+
+            text{
+                display: none;
+                user-select: none;
+                cursor: pointer;
+            }
+
+            // g:hover{
+            //     &.india,
+            //     &.ethiopia,
+            //     &.kenia,
+            //     &.brasilia,
+            //     &.columbia,
+            //     &.gvatemala,
+            //     &.costa-rica,
+            //     &.mexico{
+            //         path{
+            //             display: none;
+            //         }
+
+            //         .hover{
+            //             display: block;
+            //         }
+            //     }
+            // }
+        }
+    }
+}

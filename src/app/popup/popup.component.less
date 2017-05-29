@@ -1,0 +1,89 @@
+.popup{
+    position:absolute;
+    width:324px;
+    height:auto;
+    //min-height:200px;
+    background-color:#673766;
+
+    @media(max-width:649px){
+        //position: static;
+        top:0 !important;
+        left:0 !important;
+        width:100%;
+        background-color: transparent;
+    }
+
+    .arrow{
+        position: absolute;
+        width:0;
+        height:0;
+        left:100%;
+        top:calc(~"40% - 10px");
+        border-top:10px solid transparent;
+        border-bottom:10px solid transparent;
+        border-left:13px solid #673766;
+        user-select: none;
+
+        @media(max-width:649px){
+            display: none;
+        }
+    }
+
+    .bg{
+        position:relative;
+        padding:15px;
+        left:-6px;
+        top:-6px;
+        background-color:#F2F5F5;
+        width:calc(~"100% - 30px");
+        height:auto;//calc(~"100% - 30px");
+        
+        @media(max-width:649px){
+            left:0;
+            top:0;
+            background-color:#F2DEBB;
+        }
+
+        header{
+            display: flex;
+            justify-content: space-between;
+
+            .title{
+                font: bold 16px/20px 'Roboto Slab';
+                color:#D64636;
+                text-transform: uppercase;
+                cursor:default;
+            }
+
+            .close{
+                width:11px;
+                height:11px;
+                cursor:pointer;
+                background:url("./../../assets/images/close.svg") no-repeat center right;
+                background-size: contain;
+                transition: opacity .3s;
+
+                &:hover{
+                    opacity:0.8;
+                }
+            }
+        }
+
+        main{
+            font: 14px/16px 'Roboto Condensed';
+            color: #673766;
+            cursor:default;
+        }
+    }
+
+    &.right{
+        .arrow{
+            left:-13px;
+            border-left:0;
+            border-right:13px solid #673766;
+        }
+        .bg{
+            left:6px;
+        }
+    }
+}
