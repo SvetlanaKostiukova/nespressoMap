@@ -21,7 +21,7 @@ export class PanelComponent implements OnInit {
   }
 
   sanitize(imgName: string){
-    var path = "url('./../../assets/images/" + imgName + ".svg')";
+    var path = "url('/assets/images/" + imgName + ".svg')";
     return this.sanitizer.bypassSecurityTrustStyle(path);
   }
 
