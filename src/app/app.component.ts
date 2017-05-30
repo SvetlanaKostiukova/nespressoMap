@@ -23,6 +23,7 @@ export class AppComponent {
   showPopup:boolean = false;
   selectedBlend:number = -1;
   selectedCountry:number = -1;
+  currShiftIdx:number = 0;
   lines:any[] = [];
   countries:any[] = [
     {title:"Эфиопия", description:"750 год<br><br>По&nbsp;легенде, молодой пастух Кальди заметил, как веселы его козы, поевшие кофейных ягод. С&nbsp;тех пор отвар из&nbsp;кофейных ягод помогал не&nbsp;заснуть ему и&nbsp;местным монахам во&nbsp;время молитв.", classTitle:"ethiopia", coordX:490, coordY:171}, //coordX:165
@@ -58,31 +59,31 @@ export class AppComponent {
       var classList = elemClicked.classList;
       countryClicked = classList[0];
     }
-    var blends = document.querySelectorAll(".blend-item." + countryClicked);//this.blends.find((x) => x.contries.indexOf(countryClicked) != 1);
-    var selectedBlend = this.blends.find((x) => x.countries.indexOf(countryClicked) == 0);
+    // var blends = document.querySelectorAll(".blend-item." + countryClicked);//this.blends.find((x) => x.contries.indexOf(countryClicked) != 1);
+    // var selectedBlend = this.blends.find((x) => x.countries.indexOf(countryClicked) == 0);
 
-    if(this.svg){
-      var svgDiv = this.svg.nativeElement;
-      var groups = document.querySelectorAll("g.selected");
-      for(var i = 0; i < groups.length; i++){
-        groups[i].classList.remove("selected");
-        groups[i].classList.remove("hidden");
-      }
-      this.lines.map((x) => x.style.opacity = '0');
-      setTimeout(() => {
-        for(var j = 0; j < this.lines.length; j++){
-          svgDiv.removeChild(this.lines[j]);
-        }
-        this.lines = [];
-        for(var i = 0; i < blends.length; i++){
-          var elem = blends[i];
+    // if(this.svg){
+    //   var svgDiv = this.svg.nativeElement;
+    //   var groups = document.querySelectorAll("g.selected");
+    //   for(var i = 0; i < groups.length; i++){
+    //     groups[i].classList.remove("selected");
+    //     groups[i].classList.remove("hidden");
+    //   }
+    //   this.lines.map((x) => x.style.opacity = '0');
+    //   setTimeout(() => {
+    //     for(var j = 0; j < this.lines.length; j++){
+    //       svgDiv.removeChild(this.lines[j]);
+    //     }
+    //     this.lines = [];
+    //     for(var i = 0; i < blends.length; i++){
+    //       var elem = blends[i];
           
-          console.log(elem, elem.scrollWidth, elem.parentElement.scrollHeight)
-          // var x = elem.offsetLeft + 28;//e.clientX;
-          // var y = elem.offsetTop + 20;
-        }
-      }, this.lines.length ? 500: 0);
-    }
+    //       console.log(elem, elem.scrollWidth, elem.parentElement.scrollHeight)
+    //       // var x = elem.offsetLeft + 28;//e.clientX;
+    //       // var y = elem.offsetTop + 20;
+    //     }
+    //   }, this.lines.length ? 500: 0);
+    // }
 
     this.selectPopup(countryClicked);
   }
@@ -147,6 +148,10 @@ export class AppComponent {
         }, 300);
       }, this.lines.length ? 500: 0);
     }
+  }
+
+  shiftChanged(shiftIdx: number){
+    this.currShiftIdx = shiftIdx;
   }
 
   updateLines(){

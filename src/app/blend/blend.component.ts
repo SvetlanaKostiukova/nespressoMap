@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, Input } from '@angular/core';
 import { trigger, state, transition, animate, style } from "@angular/animations";
 
@@ -21,9 +22,12 @@ export class BlendComponent implements OnInit {
   @Input() blend: any;
   @Input() leftShift: string = "0%";
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
   }
 
+  sanitize(value: string){
+    return this.sanitizer.bypassSecurityTrustStyle(value);
+  }
 }

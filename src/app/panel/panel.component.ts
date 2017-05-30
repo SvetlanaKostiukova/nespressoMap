@@ -12,6 +12,7 @@ export class PanelComponent implements OnInit {
   firstIdx:number = 0;
   leftShift:string = "0%";
   selectedIdx:number = -1;
+  @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private sanitizer: DomSanitizer) { }
@@ -62,6 +63,8 @@ export class PanelComponent implements OnInit {
       //this.
     } else if(this.selectedIdx > this.firstIdx + 3)
       this.selectedIdx = this.firstIdx + 3;
-    this.leftShift = -20*this.firstIdx - 1.25*this.firstIdx + 1.25*((this.firstIdx+1)) + "%"; 
+    this.leftShift = -25*this.firstIdx + "%";//"calc("+ -25*this.firstIdx + "vw + 8px)";
+    this.shiftChanged.emit("calc(" + -25*this.firstIdx + "% + 10px)");
+    console.log(this.leftShift)// - 1.25*this.firstIdx + 1.25*((this.firstIdx+1)) + "%"; 
   }
 }

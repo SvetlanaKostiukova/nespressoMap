@@ -52,6 +52,6 @@
     </svg>
   </div>
   <app-popup [country]="countries[selectedCountry]" (onClosePopup)="onClosePopup($event)"></app-popup>
-  <app-panel [blends]="blends" (onBlendSelected)="onBlendSelected($event)"></app-panel>
-  <app-blend [blend]="blends[selectedBlend]"></app-blend>
+  <app-panel [blends]="blends" (onBlendSelected)="onBlendSelected($event)" (shiftChanged)="shiftChanged($event)"></app-panel>
+  <app-blend [blend]="blends[selectedBlend]" [leftShift]="currShiftIdx"></app-blend>
 </div>

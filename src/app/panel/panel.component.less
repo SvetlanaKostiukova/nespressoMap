@@ -8,19 +8,19 @@
         //top:0;
         display: flex;
         justify-content: space-between;
-        padding:10px 6px;
+        // padding:10px 6px;
         top:0;
-        max-width:calc(~"100% - 32px");
-        margin:0 10px;
-        overflow:hidden;
+        //max-width:calc(~"100% - 32px");
+        padding:10px;
+        //overflow:hidden;
     }
     
     .arrow{
-        position:absolute;  
+        //position:absolute;  
         display: none;
         height:26px;
         width:12px;
-        top:15px;
+        margin-top:15px;
         //min-width:11px;
         z-index:20;
         transition: opacity .3s;
@@ -47,6 +47,14 @@
         }
     }
 
+    .list{
+        width:100%;
+
+        @media(max-width:649px){
+            width:calc(~"100% - 32px");
+            overflow: hidden;
+        }
+    }
     ul{
         display: flex;
         justify-content: space-between;
@@ -68,14 +76,15 @@
 
             @media(max-width:649px){
                 opacity:0;
+                width:25%;
+                min-width:25%;
+                height: 100px;
                 pointer-events: none;
                 transition: opacity .3s;
 
                 &.current{
-                    width:20%;
-                    min-width:20%;
-                    margin:0 2.5%;
-                    height: 100px;
+                    //margin:0 2.5%;
+                    //margin-left:2.5%;
                     opacity: 1;
                     pointer-events: all;
                 }
