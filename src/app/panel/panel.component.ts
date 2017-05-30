@@ -11,7 +11,7 @@ export class PanelComponent implements OnInit {
   @Input() blends:any[] = [];
   firstIdx:number = 0;
   leftShift:string = "0%";
-  selectedIdx:number = -1;
+  selectedIdx:number = 0;
   @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -27,28 +27,28 @@ export class PanelComponent implements OnInit {
 
   onSelect(e:any, blend: any){
     if(this.panelDiv){
-      var panel = this.panelDiv.nativeElement;
+      //var panel = this.panelDiv.nativeElement;
       this.selectedIdx = this.blends.indexOf(blend);
-      var elem = e.target;
-      var x = elem.offsetLeft + 24;//e.clientX;
-      var y = elem.offsetTop + 20;//e.clientY;
-      console.log(e, elem.offsetLeft, elem, panel.offsetTop)
+      // var elem = e.target;
+      // var x = elem.offsetLeft + 24;//e.clientX;
+      // var y = elem.offsetTop + 20;//e.clientY;
+      // console.log(e, elem.offsetLeft, elem, panel.offsetTop)
 
-      var offsetParent = elem.offsetParent;
-      while(offsetParent && offsetParent != panel){
-        console.log(x, y)
-        x += offsetParent.offsetLeft;
-        y += offsetParent.offsetTop;
-        offsetParent = offsetParent.offsetParent;
-      }
+      // var offsetParent = elem.offsetParent;
+      // while(offsetParent && offsetParent != panel){
+      //   console.log(x, y)
+      //   x += offsetParent.offsetLeft;
+      //   y += offsetParent.offsetTop;
+      //   offsetParent = offsetParent.offsetParent;
+      // }
 
-      x += panel.offsetLeft;
-      y += panel.offsetTop;
+      // x += panel.offsetLeft;
+      // y += panel.offsetTop;
       var app = document.getElementsByClassName("app").item(0);
       var ratio = 650 / app.clientWidth;
-      console.log("end", x*ratio, y*ratio, app.clientWidth)
+      // console.log("end", x*ratio, y*ratio, app.clientWidth)
 
-      this.onBlendSelected.emit({ blend: blend, x:x*ratio, y:y*ratio });
+      this.onBlendSelected.emit({ blend: blend, x:blend.x*ratio, y:blend.y*ratio });
     }
   }
 

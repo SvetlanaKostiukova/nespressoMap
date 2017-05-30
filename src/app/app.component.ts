@@ -21,7 +21,7 @@ export class AppComponent {
   @ViewChild('svg') svg:ElementRef;
   title = 'app works!';
   showPopup:boolean = false;
-  selectedBlend:number = -1;
+  selectedBlend:number = 0;
   selectedCountry:number = -1;
   currShiftIdx:number = 0;
   lines:any[] = [];
@@ -37,14 +37,14 @@ export class AppComponent {
     {title:"latin", description:"", classTitle:"latin", coordX:219, coordY:241},
   ];
   blends: any[] = [
-    {title:"Bukeela ka&nbsp;ethiopia", description:"Это сочетание двух уникальных сортов арабики из&nbsp;Эфиопии: Sidamo (привносит в&nbsp;бленд яркие ноты жасмина&nbsp;&mdash; комплекс цветочных нот в&nbsp;аромате) и&nbsp;Moka Boji (глубокий и&nbsp;пряный вкус, характерный для этих регионов, где кофе первоначально был дикорастущим).", img:"Bukeelakaethiopia", countries:["ethiopia"]},
-    {title:"Arpeggio", description:"Представляет собой интенсивный бленд, состоящий из&nbsp;100% арабики. Длительная обжарка коста-риканской арабики придает бленду глубокие ноты какао и&nbsp;шоколада, которые прекрасно сочетаются с&nbsp;кремовой и&nbsp;шелковистой текстурой арабики из&nbsp;Бразилии.", img:"Arpeggio", countries:["brasilia", "costa-rica"]},
-    {title:"Fortissio lungo", description:"Бленд индийской арабики (Мунсун Малабар)&nbsp;&mdash; зёрна &laquo;альбинос&raquo; обрабатываются под действием муссонных ветров, создавая неповторимый ароматический профиль, насыщенный и&nbsp;плотный вкус, богатый сладкими злаковыми нотами,&nbsp;&mdash; и&nbsp;колумбийской арабики (регион Каука)&nbsp;&mdash; придает бленду нежную кислинку.", img:"Fortissiolungo", countries:["columbia", "india"]},
-    {title:"Livanto", description:"Ароматический профиль: это прекрасно сбалансированный эспрессо с&nbsp;характерной карамельной нотой и&nbsp;легким фруктовым ароматом. Сбалансированный вкус рождается из&nbsp;сочетания злаковых, солодовых и&nbsp;карамельных нот, а&nbsp;также утонченных фруктовых нот.", img:"Livanto", countries:["costa-rica", "columbia", "gvatemala"]},
-    {title:"Lungo Origin Guatemala", description:"В&nbsp;Гватемале выращиваются небольшие количества редких, исключительных сортов кофе. На&nbsp;склонах вулканических гор Сьерра-Мадре природой созданы почти идеальные условия для получения высококлассных зерен арабики. Бленд Lungo Origin Guatemala, созданный из&nbsp;арабики и&nbsp;мытой робусты, обладает мягким сбалансированным вкусом с&nbsp;сухими злаковыми и&nbsp;солодовыми нотами.", img:"LungoOriginGuatemala", countries:["gvatemala"]},
-    {title:"Envivo Lungo", description:"Самый интенсивный из&nbsp;всех блендов лунго, Envivo Lungo сочетает в&nbsp;себе отборную робусту из&nbsp;Мексики и&nbsp;обработанную особым способом арабику из&nbsp;Индии. В&nbsp;результате получается кофе с&nbsp;легким ароматом имбирного пряника, а&nbsp;также карамельными и&nbsp;древесными нотами.", img:"EnvivoLungo", countries:["mexico", "india"]},
-    {title:"Indria from India", description:"Арабика и&nbsp;робуста, которые входят в&nbsp;состав бленда Indria, произрастают на&nbsp;юге Индии. Эти зерна обладают легкой горчинкой и&nbsp;плотным вкусом с&nbsp;пряными нотками гвоздики, перца и&nbsp;мускатного ореха.", img:"IndriafromIndia", countries:["india"]},
-    {title:"Cosi", description:"В&nbsp;бленде Cosi сочетается арабика из&nbsp;Восточной Африки и&nbsp;из&nbsp;Центральной и&nbsp;Южной Америки, благодаря чему кофе обладает злаковыми, фруктовыми и&nbsp;цитрусовыми нотами. За&nbsp;фруктовые ноты как раз отвечает кенийская арабика&nbsp;&mdash; мягко обжаренные зерна высочайшего качества.", img:"Cosi", countries:["kenia", "latin"]}
+    {title:"Bukeela ka&nbsp;ethiopia", description:"Это сочетание двух уникальных сортов арабики из&nbsp;Эфиопии: Sidamo (привносит в&nbsp;бленд яркие ноты жасмина&nbsp;&mdash; комплекс цветочных нот в&nbsp;аромате) и&nbsp;Moka Boji (глубокий и&nbsp;пряный вкус, характерный для этих регионов, где кофе первоначально был дикорастущим).", img:"Bukeelakaethiopia", countries:["ethiopia"], coordX:60, coordY:387},
+    {title:"Arpeggio", description:"Представляет собой интенсивный бленд, состоящий из&nbsp;100% арабики. Длительная обжарка коста-риканской арабики придает бленду глубокие ноты какао и&nbsp;шоколада, которые прекрасно сочетаются с&nbsp;кремовой и&nbsp;шелковистой текстурой арабики из&nbsp;Бразилии.", img:"Arpeggio", countries:["brasilia", "costa-rica"], coordX:136, coordY:387},
+    {title:"Fortissio lungo", description:"Бленд индийской арабики (Мунсун Малабар)&nbsp;&mdash; зёрна &laquo;альбинос&raquo; обрабатываются под действием муссонных ветров, создавая неповторимый ароматический профиль, насыщенный и&nbsp;плотный вкус, богатый сладкими злаковыми нотами,&nbsp;&mdash; и&nbsp;колумбийской арабики (регион Каука)&nbsp;&mdash; придает бленду нежную кислинку.", img:"Fortissiolungo", countries:["columbia", "india"], coordX:200, coordY:387},
+    {title:"Livanto", description:"Ароматический профиль: это прекрасно сбалансированный эспрессо с&nbsp;характерной карамельной нотой и&nbsp;легким фруктовым ароматом. Сбалансированный вкус рождается из&nbsp;сочетания злаковых, солодовых и&nbsp;карамельных нот, а&nbsp;также утонченных фруктовых нот.", img:"Livanto", countries:["costa-rica", "columbia", "gvatemala"], coordX:287, coordY:387},
+    {title:"Lungo Origin Guatemala", description:"В&nbsp;Гватемале выращиваются небольшие количества редких, исключительных сортов кофе. На&nbsp;склонах вулканических гор Сьерра-Мадре природой созданы почти идеальные условия для получения высококлассных зерен арабики. Бленд Lungo Origin Guatemala, созданный из&nbsp;арабики и&nbsp;мытой робусты, обладает мягким сбалансированным вкусом с&nbsp;сухими злаковыми и&nbsp;солодовыми нотами.", img:"LungoOriginGuatemala", countries:["gvatemala"], coordX:363, coordY:387},
+    {title:"Envivo Lungo", description:"Самый интенсивный из&nbsp;всех блендов лунго, Envivo Lungo сочетает в&nbsp;себе отборную робусту из&nbsp;Мексики и&nbsp;обработанную особым способом арабику из&nbsp;Индии. В&nbsp;результате получается кофе с&nbsp;легким ароматом имбирного пряника, а&nbsp;также карамельными и&nbsp;древесными нотами.", img:"EnvivoLungo", countries:["mexico", "india"], coordX:439, coordY:387},
+    {title:"Indria from India", description:"Арабика и&nbsp;робуста, которые входят в&nbsp;состав бленда Indria, произрастают на&nbsp;юге Индии. Эти зерна обладают легкой горчинкой и&nbsp;плотным вкусом с&nbsp;пряными нотками гвоздики, перца и&nbsp;мускатного ореха.", img:"IndriafromIndia", countries:["india"], coordX:514, coordY:387},
+    {title:"Cosi", description:"В&nbsp;бленде Cosi сочетается арабика из&nbsp;Восточной Африки и&nbsp;из&nbsp;Центральной и&nbsp;Южной Америки, благодаря чему кофе обладает злаковыми, фруктовыми и&nbsp;цитрусовыми нотами. За&nbsp;фруктовые ноты как раз отвечает кенийская арабика&nbsp;&mdash; мягко обжаренные зерна высочайшего качества.", img:"Cosi", countries:["kenia", "latin"], coordX:590, coordY:387}
   ];
 
   onClick(e: any){
@@ -60,7 +60,7 @@ export class AppComponent {
       countryClicked = classList[0];
     }
     // var blends = document.querySelectorAll(".blend-item." + countryClicked);//this.blends.find((x) => x.contries.indexOf(countryClicked) != 1);
-    // var selectedBlend = this.blends.find((x) => x.countries.indexOf(countryClicked) == 0);
+    var selectedBlend = this.blends.find((x) => x.countries.indexOf(countryClicked) == 0);
 
     // if(this.svg){
     //   var svgDiv = this.svg.nativeElement;
@@ -84,8 +84,12 @@ export class AppComponent {
     //     }
     //   }, this.lines.length ? 500: 0);
     // }
-
-    this.selectPopup(countryClicked);
+    if(selectedBlend){
+      var app = document.getElementsByClassName("app").item(0);
+      var ratio = 650 / app.clientWidth;
+      this.onBlendSelected({blend: selectedBlend, x: selectedBlend.coordX * ratio, y: selectedBlend.coordY * ratio})
+    }
+    //this.selectPopup(countryClicked);
   }
 
   selectPopup(countryClicked: string){
@@ -177,5 +181,9 @@ export class AppComponent {
     var prevPolygon = document.querySelector("polygon.selected");
     if(prevPolygon)
       prevPolygon.classList.remove("selected");
+  }
+
+  ngAfterViewInit(){
+    this.onBlendSelected({blend: this.blends[0], x:60, y:387});
   }
 }
