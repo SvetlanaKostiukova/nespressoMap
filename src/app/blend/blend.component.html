@@ -1,5 +1,7 @@
 <div class="blend" [class.empty]="!blend">
-  <div class="arrow" [style.left]="sanitize(leftShift)"></div>
+  <div class="arrow-div">
+    <div class="arrow" [style.left]="sanitize(leftShift)"></div>
+  </div>
   <header *ngIf="blend" [@popUp]>
     <div class="left">
       <div class="title">Бленд Nespresso:</div>

@@ -14,15 +14,21 @@
         height:140px;
     }
 
-    .arrow{
+    .arrow-div{
         position: absolute;
-        display: none;
-        width:0;
         top:-15px;
-        height:0;
-        border-left: 15px solid transparent;
-        border-right:15px solid transparent;
-        border-bottom: 15px solid white;
+        pointer-events: none;
+
+        .arrow{
+            position: absolute;
+            display: none;
+            width:0;
+            height:0;
+            border-left: 15px solid transparent;
+            border-right:15px solid transparent;
+            border-bottom: 15px solid white;
+            transition: left .3s;
+        }
     }
 
     @media(max-width:649px){
@@ -31,8 +37,11 @@
         height:calc(~"100% - 100vw*211/320 - 160px");
         border:none;
 
-        .arrow{
-            display: inline-block;
+        .arrow-div{
+            width:calc(~"100% - 52px");
+            .arrow{
+                display: inline-block;
+            }
         }
 
         &.empty{

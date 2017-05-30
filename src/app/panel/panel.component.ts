@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -6,9 +6,10 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.less']
 })
-export class PanelComponent implements OnInit {
+export class PanelComponent implements OnInit, OnChanges {
   @ViewChild('panel') panelDiv: ElementRef;
   @Input() blends:any[] = [];
+  @Input() selectedBlend: any;
   firstIdx:number = 0;
   leftShift:string = "0%";
   selectedIdx:number = 0;
@@ -18,6 +19,7 @@ export class PanelComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+      this.shiftChanged.emit("calc(12.5% - 7px)");
   }
 
   sanitize(imgName: string){
@@ -25,46 +27,57 @@ export class PanelComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustStyle(path);
   }
 
-  onSelect(e:any, blend: any){
-    if(this.panelDiv){
-      //var panel = this.panelDiv.nativeElement;
-      this.selectedIdx = this.blends.indexOf(blend);
-      // var elem = e.target;
-      // var x = elem.offsetLeft + 24;//e.clientX;
-      // var y = elem.offsetTop + 20;//e.clientY;
-      // console.log(e, elem.offsetLeft, elem, panel.offsetTop)
-
-      // var offsetParent = elem.offsetParent;
-      // while(offsetParent && offsetParent != panel){
-      //   console.log(x, y)
-      //   x += offsetParent.offsetLeft;
-      //   y += offsetParent.offsetTop;
-      //   offsetParent = offsetParent.offsetParent;
-      // }
-
-      // x += panel.offsetLeft;
-      // y += panel.offsetTop;
-      var app = document.getElementsByClassName("app").item(0);
-      var ratio = 650 / app.clientWidth;
-      // console.log("end", x*ratio, y*ratio, app.clientWidth)
-
-      this.onBlendSelected.emit({ blend: blend, x:blend.coordX*ratio, y:blend.coordY*ratio });
+  ngOnChanges(chngs){
+    if(chngs.selectedBlend){
+      var prevBlend = chngs.selectedBlend.previousValue;
+      var currBlend = chngs.selectedBlend.currentValue;
+      if(JSON.stringify(prevBlend) != JSON.stringify(currBlend)){
+        var idx = this.blends.indexOf(currBlend);
+        if(idx > -1){
+          var shift;
+          if(idx > this.firstIdx + 3){
+            shift = idx;
+            if(this.blends.length - shift < 4)
+              shift = this.blends.length - 4;
+          } else if(idx < this.firstIdx){
+            shift = idx - 3;
+            if(shift < 0)
+              shift = 0;
+          }
+          this.firstIdx = shift? shift: this.firstIdx;
+          this.leftShift = -25*this.firstIdx + "%";
+          this.selectedIdx = idx;
+          var shiftIdx = this.selectedIdx - this.firstIdx;
+          this.shiftChanged.emit("calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
+        }
+      }
     }
   }
 
-  onShift(forward: boolean){
-    this.firstIdx += forward? 1: -1;
+  onSelect(e:any, blend: any){
+    if(this.panelDiv && blend){
+      this.selectedIdx = this.blends.indexOf(blend);
+      var shift = this.selectedIdx - this.firstIdx;
+      this.shiftChanged.emit("calc(" + (12.5 + 25*shift) + "% - 7.5px)");
+      setTimeout(() => this.onBlendSelected.emit(blend), 300);
+    }
+  }
+
+  onShift(forward: number){
+    this.firstIdx += forward;//? 1: -1;
     if(this.firstIdx < 0)
-      this.firstIdx = this.blends.length - 1;
-    else if(this.firstIdx > this.blends.length  - 1)
-      this.firstIdx = 0;
+      this.firstIdx = 0;//this.blends.length - 1;
+    else if(this.firstIdx > this.blends.length  - 4)
+      this.firstIdx = this.blends.length - 4;//0;
     if(this.selectedIdx < this.firstIdx && this.selectedIdx > -1){
       this.selectedIdx = this.firstIdx;
-      //this.
-    } else if(this.selectedIdx > this.firstIdx + 3)
+      this.onSelect(undefined, this.blends[this.selectedIdx]);
+    } else if(this.selectedIdx > this.firstIdx + 3) {
       this.selectedIdx = this.firstIdx + 3;
-    this.leftShift = -25*this.firstIdx + "%";//"calc("+ -25*this.firstIdx + "vw + 8px)";
-    this.shiftChanged.emit("calc(" + -25*this.firstIdx + "% + 10px)");
-    console.log(this.leftShift)// - 1.25*this.firstIdx + 1.25*((this.firstIdx+1)) + "%"; 
+      this.onSelect(undefined, this.blends[this.selectedIdx]);
+    }
+    var shiftIdx = this.selectedIdx - this.firstIdx;
+    this.shiftChanged.emit("calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
+    this.leftShift = -25*this.firstIdx + "%";
   }
 }

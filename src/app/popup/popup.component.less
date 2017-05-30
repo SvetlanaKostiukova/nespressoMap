@@ -2,18 +2,18 @@
     position:absolute;
     width:324px;
     height:auto;
+    top:0;
+    left:0;
     //min-height:200px;
     background-color:#673766;
     transition: top, left, height .3s;
 
     @media(max-width:649px){
-        position: static;
-        top:0 !important;
-        left:0 !important;
+        position: relative;
         width:100%;
         min-height:100vh/3;
         background-color: transparent;
-        transition: top, left 0s;
+        //transition: top, left 0s;
     }
 
     .arrow{

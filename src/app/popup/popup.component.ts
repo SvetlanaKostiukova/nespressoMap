@@ -12,23 +12,36 @@ import { trigger, state, transition, animate, style } from "@angular/animations"
         animate("0.3s ease-out", style({ opacity: 1}))
       ]),
       transition(":leave", [
-        animate("0.3s ease-in", style({ opacity: 0 }))
+        animate("0.3s ease-in", style({ opacity: 0}))
       ])
     ]),
+    // trigger('changesAnimation', [
+    //   transition('* => void', [
+    //     style({ opacity: 0 }),
+    //     animate("0.3s ease-out", style({ opacity: 1}))
+    //   ]),
+    //   transition("void => *", [
+    //     animate("0.3s ease-in", style({ opacity: 0, background:"green"}))
+    //   ])
+    // ]),
   ]
 })
 export class PopupComponent implements OnInit, OnChanges {
   @Input() country:any;
   @Output() onClosePopup:EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('popup') popupDiv: ElementRef;
+  countryChanged: string = "nochange";
 
   isRight:boolean = false;
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.countryChanged = "nochange";
+  }
 
   ngOnChanges(){
+    this.countryChanged = "change";
     if(this.country){
       var left = this.country.coordX;
       if(left > 375) 
@@ -36,6 +49,8 @@ export class PopupComponent implements OnInit, OnChanges {
       else 
         this.isRight = true;
     }
+
+    setTimeout(() => this.countryChanged = "nochange", 300);
   }
 
   calculateLeft(){
@@ -64,8 +79,10 @@ export class PopupComponent implements OnInit, OnChanges {
   ngAfterViewChecked(){
     if(this.popupDiv){
       var popup:HTMLElement = this.popupDiv.nativeElement;
-      popup.style.top = this.calculateTop();
-      popup.style.left = this.calculateLeft();
+      if(window.innerWidth > 649){
+        popup.style.top = this.country.popupX + "px";//this.calculateTop();
+        popup.style.left = this.country.popupY + "px";//this.calculateLeft();
+      }
     }
   }
 }
