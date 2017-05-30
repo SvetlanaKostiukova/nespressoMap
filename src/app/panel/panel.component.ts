@@ -48,7 +48,7 @@ export class PanelComponent implements OnInit {
       var ratio = 650 / app.clientWidth;
       // console.log("end", x*ratio, y*ratio, app.clientWidth)
 
-      this.onBlendSelected.emit({ blend: blend, x:blend.x*ratio, y:blend.y*ratio });
+      this.onBlendSelected.emit({ blend: blend, x:blend.coordX*ratio, y:blend.coordY*ratio });
     }
   }
 
