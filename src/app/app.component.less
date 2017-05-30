@@ -1,3 +1,4 @@
+@ratio:211/320;
 .app{
     width:650px;
     height:720px;
@@ -6,21 +7,27 @@
 
     @media(max-width:649px){
         width:100%;
+        // overflow: hidden;
         height:100%;//auto;
         // display: flex;
         // flex-direction: column;
         // justify-content: space-between;
 
         &.popup{
+
             .map-bg{
                 position: absolute;
+                visibility: hidden;
             }
         }
     }
 
     .map-bg{
+        position: relative;
         width:100%;
-        height:auto;
+        height:100%*@ratio;
+        max-height:387px;
+        overflow:hidden;//auto;
         //height:379px;
         background: url("./../assets/images/map4.png") no-repeat top center;
         background-size:100% auto;
@@ -28,15 +35,18 @@
 
         @media(max-width:649px){
             //height:50%;
+            height:100vw*@ratio;
             background-size: 110vw auto;
             background-position: -10vw top;
+            overflow: visible;
             //min-height: calc(~"100vh/2");
         }
 
         svg{
+            position:absolute;
             width:100%;
             height:auto;
-            min-height:383px;
+            min-height:483px;
 
             @media(max-width:649px){
                 min-height:initial;

@@ -30,27 +30,15 @@ export class PopupComponent implements OnInit, OnChanges {
   @Input() country:any;
   @Output() onClosePopup:EventEmitter<any> = new EventEmitter<any>();
   @ViewChild('popup') popupDiv: ElementRef;
-  countryChanged: string = "nochange";
 
   isRight:boolean = false;
 
   constructor() { }
 
   ngOnInit() {
-    this.countryChanged = "nochange";
   }
 
   ngOnChanges(){
-    this.countryChanged = "change";
-    if(this.country){
-      var left = this.country.coordX;
-      if(left > 375) 
-        this.isRight = false;
-      else 
-        this.isRight = true;
-    }
-
-    setTimeout(() => this.countryChanged = "nochange", 300);
   }
 
   calculateLeft(){

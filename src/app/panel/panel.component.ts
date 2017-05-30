@@ -19,7 +19,7 @@ export class PanelComponent implements OnInit, OnChanges {
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-      this.shiftChanged.emit("calc(12.5% - 7px)");
+      this.shiftChanged.emit(0);//"calc(12.5% - 7px)");
   }
 
   sanitize(imgName: string){
@@ -44,21 +44,21 @@ export class PanelComponent implements OnInit, OnChanges {
             if(shift < 0)
               shift = 0;
           }
-          this.firstIdx = shift? shift: this.firstIdx;
+          this.firstIdx = shift !== undefined? shift: this.firstIdx;
           this.leftShift = -25*this.firstIdx + "%";
           this.selectedIdx = idx;
           var shiftIdx = this.selectedIdx - this.firstIdx;
-          this.shiftChanged.emit("calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
+          this.shiftChanged.emit(shiftIdx);//"calc(" + (12.5 + 25*shiftIdx) + "% - 7px)")
         }
       }
     }
   }
 
   onSelect(e:any, blend: any){
-    if(this.panelDiv && blend){
+    if(this.panelDiv && blend && this.blends.indexOf(blend) != this.selectedIdx){
       this.selectedIdx = this.blends.indexOf(blend);
       var shift = this.selectedIdx - this.firstIdx;
-      this.shiftChanged.emit("calc(" + (12.5 + 25*shift) + "% - 7.5px)");
+      this.shiftChanged.emit(shift);//"calc(" + (12.5 + 25*shift) + "% - 7px)");
       setTimeout(() => this.onBlendSelected.emit(blend), 300);
     }
   }
@@ -70,14 +70,14 @@ export class PanelComponent implements OnInit, OnChanges {
     else if(this.firstIdx > this.blends.length  - 4)
       this.firstIdx = this.blends.length - 4;//0;
     if(this.selectedIdx < this.firstIdx && this.selectedIdx > -1){
-      this.selectedIdx = this.firstIdx;
-      this.onSelect(undefined, this.blends[this.selectedIdx]);
+      // this.selectedIdx = this.firstIdx;
+      this.onSelect(undefined, this.blends[this.firstIdx]);//selectedIdx]);
     } else if(this.selectedIdx > this.firstIdx + 3) {
-      this.selectedIdx = this.firstIdx + 3;
-      this.onSelect(undefined, this.blends[this.selectedIdx]);
+      // this.selectedIdx = this.firstIdx + 3;
+      this.onSelect(undefined, this.blends[this.firstIdx + 3]);//this.selectedIdx]);
     }
     var shiftIdx = this.selectedIdx - this.firstIdx;
-    this.shiftChanged.emit("calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
+    this.shiftChanged.emit(shiftIdx);//"calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
     this.leftShift = -25*this.firstIdx + "%";
   }
 }
