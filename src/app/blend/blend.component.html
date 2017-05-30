@@ -1,5 +1,6 @@
 <div class="blend" [class.empty]="!blend">
-  <header *ngIf="blend">
+  <div class="arrow" [style.left]="leftShift"></div>
+  <header *ngIf="blend" [@popUp]>
     <div class="left">
       <div class="title">Бленд Nespresso:</div>
       <div class="subtitle" [innerHTML]="blend.title"></div>
@@ -9,4 +10,5 @@
     </div>
   </header>
   <main *ngIf="blend" [innerHTML]="blend.description"></main>
+  <a *ngIf="blend" [@popUp] href="" target="_blank" class="mobile"><div class="nespresso"></div></a>
 </div>

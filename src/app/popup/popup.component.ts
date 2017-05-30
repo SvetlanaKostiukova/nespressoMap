@@ -12,7 +12,7 @@ import { trigger, state, transition, animate, style } from "@angular/animations"
         animate("0.3s ease-out", style({ opacity: 1}))
       ]),
       transition(":leave", [
-        animate("0.3s ease-out", style({ opacity: 0 }))
+        animate("0.3s ease-in", style({ opacity: 0 }))
       ])
     ]),
   ]
@@ -52,7 +52,7 @@ export class PopupComponent implements OnInit, OnChanges {
     if(this.popupDiv){
       var popup:HTMLElement = this.popupDiv.nativeElement;
       var popupHeight = popup.offsetHeight;
-      top -= 2*popupHeight/5;
+      top -= 2*popupHeight/5 + 15;
     }
     return top + 'px';
   }

@@ -8,10 +8,10 @@
         //top:0;
         display: flex;
         justify-content: space-between;
-        padding:0;
+        padding:10px 6px;
         top:0;
-        max-width:calc(~"100% - 50px");
-        margin:0 25px;
+        max-width:calc(~"100% - 32px");
+        margin:0 10px;
         overflow:hidden;
     }
     
@@ -20,16 +20,20 @@
         display: none;
         height:26px;
         width:12px;
+        top:15px;
         //min-width:11px;
+        z-index:20;
         transition: opacity .3s;
         &.left{
-            left:-12px;
+            left:0;
+            //margin-left:-12px;
             background:url("./../../assets/images/left.svg") no-repeat center right;
             background-size: cover;
         }
 
         &.right{
-            right:-12px;
+            right:0;
+            //margin-right:-12px;
             background:url("./../../assets/images/right.svg") no-repeat center left;
             background-size: cover;
         }
@@ -55,6 +59,7 @@
             position: relative;
             max-width:100%;//calc(~"100% - 50px");
             //overflow:hidden; 
+            transition: left .3s;
         }
 
         .blend-item{
@@ -62,8 +67,18 @@
             height:90px;
 
             @media(max-width:649px){
-                width:25%;
-                min-width:25%;
+                opacity:0;
+                pointer-events: none;
+                transition: opacity .3s;
+
+                &.current{
+                    width:20%;
+                    min-width:20%;
+                    margin:0 2.5%;
+                    height: 100px;
+                    opacity: 1;
+                    pointer-events: all;
+                }
             }
 
             .icon{
@@ -73,6 +88,11 @@
                 background: no-repeat center;
                 background-size:contain;
                 transition:transform .3s;//width, height .3s;
+
+                @media(max-width:649px){
+                    opacity:0.7;
+                    transition: opacity 3s;
+                }
             }
 
             .title{
@@ -94,6 +114,19 @@
                 .title{
                     //padding-top:10px;
                     color:#333333;
+                }
+
+                @media(max-width:649px){
+                    .icon{
+                        transform: none;
+                        opacity:1;
+                    }
+
+                    .title{
+                        font-family: 'Roboto Slab';
+                        font-weight: bold;
+                        color:#D64636;
+                    }
                 }
             }
         }

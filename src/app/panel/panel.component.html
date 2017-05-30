@@ -1,7 +1,7 @@
-<div class="panel">
+<div class="panel" #panel>
   <div class="arrow left" (click)="onShift(false)"></div>
   <ul [style.left]="leftShift">
-    <li *ngFor="let blend of blends;let i=index;" class="blend-item" [class.selected]="i==selectedIdx" (click)="onSelect($event, blend)">
+    <li *ngFor="let blend of blends;let i=index;" class="blend-item" [ngClass]="blend.countries" [class.selected]="i==selectedIdx" [class.current]="i>=firstIdx&&i<=firstIdx+3" (click)="onSelect($event, blend)">
       <div class="icon" [style.background-image]="sanitize(blend.img)"></div>
       <div class="title" [innerHTML]="blend.title"></div>
     </li>

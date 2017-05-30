@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./panel.component.less']
 })
 export class PanelComponent implements OnInit {
+  @ViewChild('panel') panelDiv: ElementRef;
   @Input() blends:any[] = [];
   firstIdx:number = 0;
   leftShift:string = "0%";
@@ -24,15 +25,30 @@ export class PanelComponent implements OnInit {
   }
 
   onSelect(e:any, blend: any){
-    console.log(e)
-    this.selectedIdx = this.blends.indexOf(blend);
-    var x = e.clientX;
-    var y = e.clientY;
-    var elem = e.target;
+    if(this.panelDiv){
+      var panel = this.panelDiv.nativeElement;
+      this.selectedIdx = this.blends.indexOf(blend);
+      var elem = e.target;
+      var x = elem.offsetLeft + 24;//e.clientX;
+      var y = elem.offsetTop + 20;//e.clientY;
+      console.log(e, elem.offsetLeft, elem, panel.offsetTop)
 
-    x = elem.offsetLeft + 28;
-    y = elem.offsetParent.offsetTop + 20;
-    this.onBlendSelected.emit({ blend: blend, x:x, y:y });
+      var offsetParent = elem.offsetParent;
+      while(offsetParent && offsetParent != panel){
+        console.log(x, y)
+        x += offsetParent.offsetLeft;
+        y += offsetParent.offsetTop;
+        offsetParent = offsetParent.offsetParent;
+      }
+
+      x += panel.offsetLeft;
+      y += panel.offsetTop;
+      var app = document.getElementsByClassName("app").item(0);
+      var ratio = 650 / app.clientWidth;
+      console.log("end", x*ratio, y*ratio, app.clientWidth)
+
+      this.onBlendSelected.emit({ blend: blend, x:x*ratio, y:y*ratio });
+    }
   }
 
   onShift(forward: boolean){
@@ -41,6 +57,11 @@ export class PanelComponent implements OnInit {
       this.firstIdx = this.blends.length - 1;
     else if(this.firstIdx > this.blends.length  - 1)
       this.firstIdx = 0;
-    this.leftShift = -25*this.firstIdx + "%"; 
+    if(this.selectedIdx < this.firstIdx && this.selectedIdx > -1){
+      this.selectedIdx = this.firstIdx;
+      //this.
+    } else if(this.selectedIdx > this.firstIdx + 3)
+      this.selectedIdx = this.firstIdx + 3;
+    this.leftShift = -20*this.firstIdx - 1.25*this.firstIdx + 1.25*((this.firstIdx+1)) + "%"; 
   }
 }

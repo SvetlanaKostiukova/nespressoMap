@@ -1,9 +1,21 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { trigger, state, transition, animate, style } from "@angular/animations";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
+  animations:[
+    trigger('popUp', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate("0.3s ease-out", style({ opacity: 1}))
+      ]),
+      transition(":leave", [
+        animate("0.3s ease-out", style({ opacity: 0 }))
+      ])
+    ]),
+  ]
 })
 export class AppComponent {
   @ViewChild('svg') svg:ElementRef;
@@ -36,28 +48,59 @@ export class AppComponent {
 
   onClick(e: any){
     var countryClicked;
-    console.log(e)
     var elemClicked = e.target;
     if(elemClicked instanceof SVGPolygonElement){
       countryClicked = elemClicked.getAttribute("id");
     } else if(elemClicked instanceof SVGPathElement){
       var classList = elemClicked.classList;
       countryClicked = classList[classList.length - 1];
+    } else if(elemClicked instanceof SVGTextElement){
+      var classList = elemClicked.classList;
+      countryClicked = classList[0];
+    }
+    var blends = document.querySelectorAll(".blend-item." + countryClicked);//this.blends.find((x) => x.contries.indexOf(countryClicked) != 1);
+    var selectedBlend = this.blends.find((x) => x.countries.indexOf(countryClicked) == 0);
+
+    if(this.svg){
+      var svgDiv = this.svg.nativeElement;
+      var groups = document.querySelectorAll("g.selected");
+      for(var i = 0; i < groups.length; i++){
+        groups[i].classList.remove("selected");
+        groups[i].classList.remove("hidden");
+      }
+      this.lines.map((x) => x.style.opacity = '0');
+      setTimeout(() => {
+        for(var j = 0; j < this.lines.length; j++){
+          svgDiv.removeChild(this.lines[j]);
+        }
+        this.lines = [];
+        for(var i = 0; i < blends.length; i++){
+          var elem = blends[i];
+          
+          console.log(elem, elem.scrollWidth, elem.parentElement.scrollHeight)
+          // var x = elem.offsetLeft + 28;//e.clientX;
+          // var y = elem.offsetTop + 20;
+        }
+      }, this.lines.length ? 500: 0);
     }
 
-    var prevPath = document.querySelector("path.hidden");// + this.countries[prevCountry].classTitle);
-    if(prevPath)
-      prevPath.classList.remove("hidden");
+    this.selectPopup(countryClicked);
+  }
+
+  selectPopup(countryClicked: string){
+    var prevGroup = document.querySelector("g.hidden");// + this.countries[prevCountry].classTitle);
+    if(prevGroup)
+      prevGroup.classList.remove("hidden");
     var prevPolygon = document.querySelector("polygon.selected");
     if(prevPolygon)
       prevPolygon.classList.remove("selected");
     var searchCountry = this.countries.find((x) => x.classTitle == countryClicked);
-    console.log(searchCountry)
     this.selectedCountry = this.countries.indexOf(searchCountry);
+    
     if(this.selectedCountry > -1){
-      this.showPopup = true;
-      var path = document.querySelector("path." + countryClicked);
-      path.classList.add("hidden");
+      setTimeout(() => this.showPopup = true, 300);
+      var group = document.querySelector("g." + countryClicked);
+      group.classList.add("hidden");
       var polygon = document.querySelector("polygon#" + countryClicked);
       polygon.classList.add("selected");
     }
@@ -67,23 +110,47 @@ export class AppComponent {
     this.selectedBlend = this.blends.indexOf(e.blend);
     if(this.svg){
       var svgDiv:HTMLElement = this.svg.nativeElement;
-      console.log(e.blend.countries);
-      for(var j = 0; j < this.lines.length; j++){
-        svgDiv.removeChild(this.lines[j]);
+      this.selectedCountry = -1;
+      this.showPopup = false;
+      //setTimeout(() => this.showPopup = false, 300);
+      var groups = document.querySelectorAll("g.selected");
+      for(var i = 0; i < groups.length; i++){
+        groups[i].classList.remove("selected");
+        groups[i].classList.remove("hidden");
       }
-      this.lines = [];
-      for(var i = 0; i < e.blend.countries.length; i++){
-        var country = e.blend.countries[i];
-        var countrySearch = this.countries.find((x) => x.classTitle == country);
-        if(countrySearch){
-          var line = this.drawLine(e.x, e.y, countrySearch.coordX, countrySearch.coordY);
-          console.log(line);
-          svgDiv.appendChild(line);
-          this.lines.push(line);
+      this.lines.map((x) => x.style.opacity = '0');
+      setTimeout(() => {
+        for(var j = 0; j < this.lines.length; j++){
+          svgDiv.removeChild(this.lines[j]);
         }
-      }
-      console.log("end");
+        this.lines = [];
+        for(var i = 0; i < e.blend.countries.length; i++){
+          var country = e.blend.countries[i];
+          var countrySearch = this.countries.find((x) => x.classTitle == country);
+          if(countrySearch){
+            var line = this.drawLine(e.x, e.y, countrySearch.coordX, countrySearch.coordY);
+            svgDiv.appendChild(line);
+            this.lines.push(line);
+          }
+          setTimeout(() => {this.lines.map((x) => x.style.opacity = "1")}, 10);
+        }
+        setTimeout(() => {
+          this.selectPopup(e.blend.countries[0]);
+          for(var i = 0; i < e.blend.countries.length; i++){
+            var group = document.querySelector("g." + e.blend.countries[i]);
+            if(group) {
+              group.classList.add("selected");
+              if(!i)
+                group.classList.add("hidden");
+            }
+          }
+        }, 300);
+      }, this.lines.length ? 500: 0);
     }
+  }
+
+  updateLines(){
+
   }
 
   drawLine(x1, y1, x2, y2){
@@ -92,16 +159,16 @@ export class AppComponent {
     line.setAttribute("y1", y1);
     line.setAttribute("x2", x2);
     line.setAttribute("y2", y2);
-    line.setAttribute("style", "fill:none;stroke:#673766;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;stroke-dasharray:0,11");
+    line.setAttribute("style", "opacity:0;transition:opacity .3s;fill:none;stroke:#673766;stroke-linecap:round;stroke-miterlimit:10;stroke-width:3px;stroke-dasharray:0,11");
     return line;
   }
 
   onClosePopup(e: any){
     this.selectedCountry = -1;
-    this.showPopup = false;
-    var path = document.querySelector("path.hidden");
-    if(path)
-      path.classList.remove("hidden");
+    setTimeout(() => this.showPopup = false, 300);
+    var group = document.querySelector("g.hidden");
+    if(group)
+      group.classList.remove("hidden");
     var prevPolygon = document.querySelector("polygon.selected");
     if(prevPolygon)
       prevPolygon.classList.remove("selected");
