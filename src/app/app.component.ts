@@ -30,7 +30,7 @@ export class AppComponent {
   lines:any[] = [];
   countries:any[] = [
     {title:"Эфиопия", description:"750 год<br><br>По&nbsp;легенде, молодой пастух Кальди заметил, как веселы его козы, поевшие кофейных ягод. С&nbsp;тех пор отвар из&nbsp;кофейных ягод помогал не&nbsp;заснуть ему и&nbsp;местным монахам во&nbsp;время молитв.", classTitle:"ethiopia", coordX:490, coordY:171, popupX:95, popupY:115}, //coordX:165
-    {title:"Бразилия", description:"Первые кофейные кусты были посажены в&nbsp;Бразилии в&nbsp;1727 году на&nbsp;территории нынешнего штата Пара. Бразильская легенда гласит, что кофе ввез на&nbsp;территорию страны полковник Франсиску ди&nbsp;Мелу-Пальета (Francisco de&nbsp;Melo Palheta) из&nbsp;французской колонии Гвиана, где должен был урегулировать пограничные споры. Кофейные кусты были подарком полковнику от&nbsp;его возлюбленной.", classTitle:"brasilia", coordX:241, coordY:221, popupX:120, popupY:297},
+    {title:"Бразилия", description:"Первые кофейные деревья были посажены в&nbsp;Бразилии в&nbsp;1727 году на&nbsp;территории нынешнего штата Пара. Бразильская легенда гласит, что кофе ввез на&nbsp;территорию страны полковник Франсиску ди&nbsp;Мелу-Пальета (Francisco de&nbsp;Melo Palheta) из&nbsp;французской колонии Гвиана, где должен был урегулировать пограничные споры. Кофейные деревья были подарком полковнику от&nbsp;его возлюбленной.", classTitle:"brasilia", coordX:241, coordY:221, popupX:120, popupY:297},
     {title:"Колумбия", description:"Первые плантации кофейных деревьев были посажены в&nbsp;начале XIX века вблизи столицы государства&nbsp;&mdash; Боготы. Объем собранного урожая был незначительным, и&nbsp;кофе не&nbsp;поступал в&nbsp;открытую продажу, а&nbsp;возможность попробовать его выпадала только в&nbsp;гостях у&nbsp;колумбийских вельмож. Поняв, что на&nbsp;своем любимом кофе можно неплохо заработать, они постепенно начали расширять площади плантаций. Вскоре кофе стали выращивать и&nbsp;в&nbsp;других регионах страны, а&nbsp;в&nbsp;1810 году он&nbsp;стал доступен для продажи.", classTitle:"columbia", coordX:188, coordY:184, popupX:70, popupY:230},
     {title:"Коста-Рика", description:"Производство кофе в&nbsp;Коста-Рике берет начало в&nbsp;1779&nbsp;году, в&nbsp;центральном регионе страны, в&nbsp;городе Месета, имеющем оптимальное сочетание климатических условий и&nbsp;характеристик почвы для кофейных плантаций. Семена &laquo;аравийского кофе&raquo; импортировали из&nbsp;Эфиопии в&nbsp;Европу, откуда они попали в&nbsp;Коста-Рику. Благодаря инициативе священника Феликса Веларде, в&nbsp;начале XIX века началось культивирование кофе, и&nbsp;вскоре правительство Коста-Рики решило поощрять производство кофе в&nbsp;стране, предлагая земельные участки тем, кто решил заняться кофейными плантациями. Таким образом, колониальный строй в&nbsp;Коста-Рике был преобразован в&nbsp;более организованное производство, и&nbsp;кофейные плантации стали стремительно расти, но&nbsp;появившиеся &laquo;кофейные бароны&raquo; обострили социальное неравенство в&nbsp;стране.", classTitle:"costa-rica", coordX:157, coordY:164, popupX:5.4, popupY:240},
     {title:"Гватемала", description:"Первые кофейные деревья в&nbsp;Гватемале появились в&nbsp;1750 году&nbsp;&mdash; саженцы завезли монахи-иезуиты. В&nbsp;то&nbsp;время фермерские хозяйства выращивали кофе только для личного потребления. И&nbsp;лишь в&nbsp;конце XIX века президент Хусто Руфино Барриос пригласил в&nbsp;Гватемалу европейцев, раздал им&nbsp;плантации для выращивания кофейных деревьев и&nbsp;тем самым дал толчок развитию кофейного производства в&nbsp;регионе.", classTitle:"gvatemala", coordX:141, coordY:150, popupX:49, popupY:200},
@@ -172,7 +172,6 @@ export class AppComponent {
         var countrySearch = this.countries.find((x) => x.classTitle == country);
         if(countrySearch){
           var ratio = 650 / (this.width ? this.width: 650);
-          console.log(ratio, this.width)
           var x = ratio == 1? blend.coordX * ratio: (this.offset + 28) * ratio;
           var y = ratio == 1? blend.coordY * ratio: 463;
           var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
@@ -198,7 +197,6 @@ export class AppComponent {
     this.shiftIdx = shiftIdx;
     this.currShiftIdx = "calc(" + (12.5 + 25*shiftIdx) + "% - 7px)";
     this.offset = (this.width - 52)*(0.125 + shiftIdx*0.25) + 13;
-    console.log(this.offset)
   }
 
   drawLine(x1, y1, x2, y2){
@@ -230,7 +228,7 @@ export class AppComponent {
     this.onBlendSelected(this.blends[0]);//{blend: this.blends[0], x:60, y:387});
 
     window.addEventListener("resize", (e) =>{
-      if(window.innerWidth < 650) {
+      if(this.width != app.clientWidth) {
         this.width = app.clientWidth;
         this.offset = (this.width - 52)*(0.125 + this.shiftIdx*0.25) + 13;
         this.updateLines();//.onBlendSelected(this.blends[this.selectedBlend]);
