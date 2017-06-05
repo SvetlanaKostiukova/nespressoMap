@@ -225,7 +225,7 @@ export class AppComponent {
     this.width = app.clientWidth;
     this.offset = (this.width - 52)*0.125 + 13;
     
-    this.onBlendSelected(this.blends[0]);//{blend: this.blends[0], x:60, y:387});
+    //this.onBlendSelected(this.blends[0]);//{blend: this.blends[0], x:60, y:387});
 
     window.addEventListener("resize", (e) =>{
       if(this.width != app.clientWidth) {

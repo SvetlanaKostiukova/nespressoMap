@@ -12,7 +12,7 @@ export class PanelComponent implements OnInit, OnChanges {
   @Input() selectedBlend: any;
   firstIdx:number = 0;
   leftShift:string = "0%";
-  selectedIdx:number = 0;
+  selectedIdx:number = -1;
   @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
