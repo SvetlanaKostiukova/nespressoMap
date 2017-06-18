@@ -2,7 +2,7 @@
   <div class="arrow left" (click)="onShift(-1)" [class.blocked]="!firstIdx"></div>
   <div class="list">
     <ul [style.left]="leftShift">
-      <li *ngFor="let blend of blends;let i=index;" class="blend-item" [ngClass]="blend.countries" [class.selected]="i==selectedIdx" [class.current]="i>=firstIdx&&i<=firstIdx+3" (click)="onSelect($event, blend)">
+      <li *ngFor="let blend of blends;let i=index;" class="blend-item" [ngClass]="blend.countries" [class.selected]="i==selectedIdx" [class.current]="i>=firstIdx&&i<=firstIdx+(this.shownItems - 1)" (click)="onSelect($event, blend)">
         <div class="icon" [style.background-image]="sanitize(blend.img)"></div>
         <div class="title" [innerHTML]="blend.title"></div>
       </li>

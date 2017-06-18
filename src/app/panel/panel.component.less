@@ -1,13 +1,13 @@
 .panel{
     position: relative;
+    display: flex;
+    justify-content: space-between;
     top:-20px;
     padding: 0 25px;
 
     @media(max-width:649px){
         //width:100%;
         //top:0;
-        display: flex;
-        justify-content: space-between;
         // padding:10px 6px;
         top:0;
         //max-width:calc(~"100% - 32px");
@@ -17,7 +17,7 @@
     
     .arrow{
         //position:absolute;  
-        display: none;
+        //display: none;
         height:20px;
         width:12px;
         margin-top:15px;
@@ -50,10 +50,10 @@
     .list{
         width:100%;
 
-        @media(max-width:649px){
+        //@media(max-width:649px){
             width:calc(~"100% - 32px");
             overflow: hidden;
-        }
+        //}
     }
     ul{
         display: flex;
@@ -63,36 +63,46 @@
         padding:0;
         list-style: none;
 
-        @media(max-width:649px){
+        // @media(max-width:649px){
             position: relative;
             max-width:100%;//calc(~"100% - 50px");
             //overflow:hidden; 
             transition: left .3s;
-        }
+        // }
 
         .blend-item{
-            width:70px;
+            // width:70px;
             height:90px;
+            width:12.5%;
+            min-width:12.5%;
+            opacity:0;
+            pointer-events: none;
+            transition: opacity .3s;
+
+            &.current{
+                opacity: 1;
+                pointer-events: all;
+            }
 
             @media(max-width:649px){
                 opacity:0;
                 width:25%;
                 min-width:25%;
                 height: 100px;
-                pointer-events: none;
-                transition: opacity .3s;
+                // pointer-events: none;
+                // transition: opacity .3s;
 
-                &.current{
-                    //margin:0 2.5%;
-                    //margin-left:2.5%;
-                    opacity: 1;
-                    pointer-events: all;
-                }
+                // &.current{
+                //     //margin:0 2.5%;
+                //     //margin-left:2.5%;
+                //     opacity: 1;
+                //     pointer-events: all;
+                // }
             }
 
             .icon{
                 margin:0 auto;
-                width:48px;
+                //width:68px;
                 height:48px;
                 background: no-repeat center;
                 background-size:contain;

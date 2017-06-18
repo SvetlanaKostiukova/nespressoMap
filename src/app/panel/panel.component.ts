@@ -13,6 +13,7 @@ export class PanelComponent implements OnInit, OnChanges {
   firstIdx:number = 0;
   leftShift:string = "0%";
   selectedIdx:number = -1;
+  shownItems: number = 8;
   @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -29,23 +30,24 @@ export class PanelComponent implements OnInit, OnChanges {
 
   ngOnChanges(chngs){
     if(chngs.selectedBlend){
-      var prevBlend = chngs.selectedBlend.previousValue;
+      var prevBlend = this.blends[this.selectedIdx];//chngs.selectedBlend.previousValue;
       var currBlend = chngs.selectedBlend.currentValue;
       if(JSON.stringify(prevBlend) != JSON.stringify(currBlend)){
+        console.log("on changes")
         var idx = this.blends.indexOf(currBlend);
         if(idx > -1){
           var shift;
-          if(idx > this.firstIdx + 3){
+          if(idx > this.firstIdx + (this.shownItems - 1)){//3){
             shift = idx;
-            if(this.blends.length - shift < 4)
-              shift = this.blends.length - 4;
+            if(this.blends.length - shift < this.shownItems)//4)
+              shift = this.blends.length - this.shownItems;//4;
           } else if(idx < this.firstIdx){
-            shift = idx - 3;
+            shift = idx - (this.shownItems - 1);//3;
             if(shift < 0)
               shift = 0;
           }
           this.firstIdx = shift !== undefined? shift: this.firstIdx;
-          this.leftShift = -25*this.firstIdx + "%";
+          this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
           this.selectedIdx = idx;
           var shiftIdx = this.selectedIdx - this.firstIdx;
           this.shiftChanged.emit(shiftIdx);//"calc(" + (12.5 + 25*shiftIdx) + "% - 7px)")
@@ -56,6 +58,7 @@ export class PanelComponent implements OnInit, OnChanges {
 
   onSelect(e:any, blend: any){
     if(this.panelDiv && blend && this.blends.indexOf(blend) != this.selectedIdx){
+      console.log("on select")
       this.selectedIdx = this.blends.indexOf(blend);
       var shift = this.selectedIdx - this.firstIdx;
       this.shiftChanged.emit(shift);//"calc(" + (12.5 + 25*shift) + "% - 7px)");
@@ -67,17 +70,17 @@ export class PanelComponent implements OnInit, OnChanges {
     this.firstIdx += forward;//? 1: -1;
     if(this.firstIdx < 0)
       this.firstIdx = 0;//this.blends.length - 1;
-    else if(this.firstIdx > this.blends.length  - 4)
-      this.firstIdx = this.blends.length - 4;//0;
+    else if(this.firstIdx > this.blends.length  - this.shownItems)//4)
+      this.firstIdx = this.blends.length - this.shownItems;//4;//0;
     if(this.selectedIdx < this.firstIdx && this.selectedIdx > -1){
       // this.selectedIdx = this.firstIdx;
       this.onSelect(undefined, this.blends[this.firstIdx]);//selectedIdx]);
-    } else if(this.selectedIdx > this.firstIdx + 3) {
+    } else if(this.selectedIdx > this.firstIdx + (this.shownItems - 1)){//3) {
       // this.selectedIdx = this.firstIdx + 3;
-      this.onSelect(undefined, this.blends[this.firstIdx + 3]);//this.selectedIdx]);
+      this.onSelect(undefined, this.blends[this.firstIdx + (this.shownItems - 1)]);//3]);//this.selectedIdx]);
     }
     var shiftIdx = this.selectedIdx - this.firstIdx;
     this.shiftChanged.emit(shiftIdx);//"calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
-    this.leftShift = -25*this.firstIdx + "%";
+    this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
   }
 }
