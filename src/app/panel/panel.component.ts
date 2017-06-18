@@ -23,7 +23,7 @@ export class PanelComponent implements OnInit, OnChanges {
   }
 
   sanitize(imgName: string){
-    var path = "url('assets/images/" + imgName + ".svg')";
+    var path = "url('assets/images/" + imgName + ".png')";
     return this.sanitizer.bypassSecurityTrustStyle(path);
   }
 
