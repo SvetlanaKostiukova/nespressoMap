@@ -1,4 +1,7 @@
 @ratio:211/320;
+@svgratio:257.219/352;//475/650;
+@ratio2:370/650;
+
 .app{
     width:650px;
     height:690px;//720px;
@@ -35,10 +38,12 @@
 
         @media(max-width:649px){
             //height:50%;
-            height:100vw*@ratio;
+            height:110vw*@ratio;
             background-size: 110vw auto;
             background-position: -2vw top;
-            overflow: visible;
+            // max-height:10vw*@ratio + 370px;
+            // overflow: visible;
+            // max-h
             //min-height: calc(~"100vh/2");
         }
 
@@ -47,12 +52,15 @@
             width:100%;
             // top:40px;
             height:auto;
+            // max-height:475px;
             min-height:375px;//483px;
 
             @media(max-width:649px){
                 min-height:initial;
+                // height:110vw*475/650;
                 width:110vw;
                 margin-left:-2vw;//10vw;
+                // max-height:100vw*@svgratio;//475px - 10vw*@svgratio;
             }
             polygon, path{
                 cursor: pointer;

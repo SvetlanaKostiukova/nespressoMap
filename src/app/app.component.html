@@ -123,6 +123,6 @@
     </svg>
   </div>
   <app-popup [country]="countries[selectedCountry]" [selectedBlends]="selectedBlends" (onClosePopup)="onClosePopup($event)"></app-popup>
-  <app-panel [blends]="blends" [shownItems]="shownItems" [selectedBlend]="blends[selectedBlend]" (onBlendSelected)="onBlendSelected($event)" (shiftChanged)="shiftChanged($event)"></app-panel>
+  <app-panel [blends]="blends" [shownItems]="shownItems" [selectedBlend]="blends[selectedBlend]" [lastIdx]="lastIdx" (onBlendSelected)="onBlendSelected($event)" (shiftChanged)="shiftChanged($event)"></app-panel>
   <app-blend [blends]="blends" [blend]="blends[selectedBlend]" [leftShift]="currShiftIdx"></app-blend>
 </div>

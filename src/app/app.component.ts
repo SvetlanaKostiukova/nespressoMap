@@ -25,6 +25,7 @@ export class AppComponent {
   selectedBlend:number = 0;
   selectedBlends:any[] = [];
   selectedCountry:number = -1;
+  lastIdx:number = 0;
   currShiftIdx:string = "0px";
   blendChanged:boolean = true;
   shownItems:number = 8;
@@ -98,6 +99,7 @@ export class AppComponent {
       //load new lines
       
       this.selectedBlend = this.blends.indexOf(selectedBlends[0]);
+      this.lastIdx = this.blends.indexOf(selectedBlends[selectedBlends.length - 1]);
       this.blendChanged = true;
       setTimeout(() =>{
         var firstIdx = this.selectedBlend - this.shiftIdx;
@@ -117,7 +119,7 @@ export class AppComponent {
           // var x = ratio == 1? (blend.coordX) * ratio: 
           var ratio = 650 / (this.width ? this.width: 650);
           var x = (offset + this.width*0.01) * ratio;//ratio == 1? (offset + ) * ratio : (offset + 14) * ratio;
-          var y = ratio == 1? blend.coordY * ratio: 445;
+          var y = ratio == 1? blend.coordY * ratio: (blend.coordY * ratio - (this.width*0.1*475/650));//365 * ratio;
           var line = this.drawLine(country.coordX, country.coordY, x, y);
           
           svgDiv.appendChild(line);
@@ -169,6 +171,7 @@ export class AppComponent {
     else 
       this.blendChanged = true;
     this.selectedBlend = this.blends.indexOf(blend);
+    this.lastIdx = this.selectedBlend;
 
     //wait until content for popup is loaded
     setTimeout(()=>{
@@ -204,7 +207,7 @@ export class AppComponent {
               // console.log(ratio, this.width)
               // var x = ratio == 1? (blend.coordX) * ratio: 
               var x = (this.offset + this.width*0.01)*ratio;//ratio == 1? (this.offset + 14) * ratio : (this.offset + 14) * ratio;
-              var y = ratio == 1? blend.coordY * ratio: 445;
+              var y = ratio == 1? blend.coordY * ratio: (blend.coordY * ratio - (this.width*0.1*475/650));//365 * ratio;
               var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
               svgDiv.appendChild(line);
               this.lines.push(line);
@@ -254,9 +257,10 @@ export class AppComponent {
         var countrySearch = this.countries.find((x) => x.classTitle == country);
         if(countrySearch){
           var ratio = 650 / (this.width ? this.width: 650);
+          // var ratioVertical = 
           // var x = ratio == 1? (blend.coordX) * ratio: 
           var x = (this.offset + this.width*0.01)*ratio;//ratio == 1? (this.offset + 14) * ratio : (this.offset + 14) * ratio;
-          var y = ratio == 1? blend.coordY * ratio: 445;
+          var y = ratio == 1? blend.coordY * ratio: (blend.coordY * ratio - (this.width*0.1*475/650));//365 * ratio;
           var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
           
           svgDiv.appendChild(line);
@@ -337,7 +341,7 @@ export class AppComponent {
         console.log(this.shiftIdx)
         // var firstIdx = this.selectedBlend - this.shiftIdx;
         // firstIdx = 
-        this.shiftIdx = Math.floor(this.shiftIdx/this.shownItems);
+        //this.shiftIdx = Math.floor(this.shiftIdx/this.shownItems);
         this.offset = (this.width - 52)*(shiftLength/200 + this.shiftIdx*shiftLength/100) + 13;
         this.currShiftIdx = "calc(" + (shiftLength/2 + shiftLength*this.shiftIdx) + "% - 7px)";
         this.updateLines();//.onBlendSelected(this.blends[this.selectedBlend]);

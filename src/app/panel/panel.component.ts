@@ -13,6 +13,7 @@ export class PanelComponent implements OnInit, OnChanges {
   firstIdx:number = 0;
   leftShift:string = "0%";
   selectedIdx:number = -1;
+  @Input() lastIdx:number = -1;
   @Input() shownItems: number = 8;
   @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
@@ -47,6 +48,10 @@ export class PanelComponent implements OnInit, OnChanges {
             if(shift < 0)
               shift = 0;
           }
+          
+          if(this.lastIdx > shift + this.shownItems - 1){
+            shift = this.lastIdx - this.shownItems + 1;
+          }
           this.firstIdx = shift !== undefined? shift: this.firstIdx;
           this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
           this.selectedIdx = idx;
@@ -56,13 +61,25 @@ export class PanelComponent implements OnInit, OnChanges {
       }
     }
     if(chngs.shownItems){
-      if(this.shownItems != chngs.shownItems.currentValue){
-        var shiftIdx = this.selectedIdx - this.firstIdx;
-        console.log(shiftIdx, this.firstIdx);
-        this.firstIdx = Math.floor(shiftIdx/this.shownItems)*4;
+      if(chngs.shownItems.previousValue != chngs.shownItems.currentValue){
+        var shift;
+        if(this.selectedIdx > this.firstIdx + (this.shownItems - 1)){//3){
+          shift = this.selectedIdx;
+          if(this.blends.length - shift < this.shownItems)//4)
+            shift = this.blends.length - this.shownItems;//4;
+        } else if(this.selectedIdx < this.firstIdx){
+          shift = this.selectedIdx - (this.shownItems - 1);//3;
+          if(shift < 0)
+            shift = 0;
+        }
+
+        if(this.lastIdx > shift + this.shownItems - 1){
+          shift = this.lastIdx - this.shownItems + 1;
+        }
+        this.firstIdx = shift !== undefined? shift: this.firstIdx;
         this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
         shiftIdx = this.selectedIdx - this.firstIdx;
-        console.log(shiftIdx, this.firstIdx);
+        console.log(shiftIdx, this.firstIdx, this.shownItems);
         this.shiftChanged.emit(shiftIdx);
       }
     }
