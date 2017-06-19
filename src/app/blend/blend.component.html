@@ -2,15 +2,17 @@
   <div class="arrow-div">
     <div class="arrow" [style.left]="sanitize(leftShift)"></div>
   </div>
-  <header *ngIf="blend" [@popUp]>
-    <div class="left">
-      <div class="title">Бленд Nespresso:</div>
-      <div class="subtitle" [innerHTML]="blend.title"></div>
-    </div>
-    <div class="right">
-      <a href="https://www.nespresso.com/ru/ru/coffee-expertise?ref=home-bottom-ru" target="_blank"><div class="nespresso"></div></a>
-    </div>
-  </header>
-  <main *ngIf="blend" [innerHTML]="blend.description"></main>
-  <a *ngIf="blend" [@popUp] href="https://www.nespresso.com/ru/ru/coffee-expertise?ref=home-bottom-ru" target="_blank" class="mobile"><div class="nespresso"></div></a>
+  <div class="content" *ngFor="let b of blends" [class.selected]="b==blend">
+    <header *ngIf="b==blend" [@popUp]>
+      <div class="left">
+        <div class="title">Бленд Nespresso:</div>
+        <div class="subtitle" [innerHTML]="blend.title"></div>
+      </div>
+      <div class="right">
+        <a href="https://www.nespresso.com/ru/ru/coffee-expertise?ref=home-bottom-ru" target="_blank"><div class="nespresso"></div></a>
+      </div>
+    </header>
+    <main *ngIf="b==blend" [@popUp] [innerHTML]="blend.description"></main>
+    <a *ngIf="b==blend" href="https://www.nespresso.com/ru/ru/coffee-expertise?ref=home-bottom-ru" target="_blank" class="mobile"><div class="nespresso"></div></a>
+  </div>
 </div>

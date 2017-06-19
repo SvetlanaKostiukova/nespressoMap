@@ -325,6 +325,8 @@ export class AppComponent {
 
     window.addEventListener("resize", (e) =>{
       if(this.width != app.clientWidth) {
+        this.showPopup = false;
+        this.selectedCountry = -1;
         this.width = app.clientWidth;
         if(this.width < 650)
           this.shownItems = 4;
@@ -332,6 +334,10 @@ export class AppComponent {
           this.shownItems = 8;
         
         var shiftLength = 100/this.shownItems;
+        console.log(this.shiftIdx)
+        // var firstIdx = this.selectedBlend - this.shiftIdx;
+        // firstIdx = 
+        this.shiftIdx = Math.floor(this.shiftIdx/this.shownItems);
         this.offset = (this.width - 52)*(shiftLength/200 + this.shiftIdx*shiftLength/100) + 13;
         this.currShiftIdx = "calc(" + (shiftLength/2 + shiftLength*this.shiftIdx) + "% - 7px)";
         this.updateLines();//.onBlendSelected(this.blends[this.selectedBlend]);

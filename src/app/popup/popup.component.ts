@@ -44,6 +44,7 @@ export class PopupComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(){
+    this.currentBlend = 0;
   }
 
   sanitize(imgName: string){
@@ -86,5 +87,10 @@ export class PopupComponent implements OnInit, OnChanges {
 
   onShift(forward: number){
     this.currentBlend += forward;
+    if(this.currentBlend > this.selectedBlends.length - 1){
+      this.currentBlend = 0;
+    } else if(this.currentBlend < 0){
+      this.currentBlend = this.selectedBlends.length - 1;
+    }
   }
 }

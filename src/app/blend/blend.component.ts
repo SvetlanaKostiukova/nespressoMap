@@ -10,7 +10,7 @@ import { trigger, state, transition, animate, style } from "@angular/animations"
     trigger('popUp', [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate("0.3s ease-out", style({ opacity: 1}))
+        animate("0.5s ease-out", style({ opacity: 1}))
       ]),
       transition(":leave", [
         animate("0.3s ease-out", style({ opacity: 0 }))
@@ -20,6 +20,7 @@ import { trigger, state, transition, animate, style } from "@angular/animations"
 })
 export class BlendComponent implements OnInit {
   @Input() blend: any;
+  @Input() blends: any[] = [];
   @Input() leftShift: string = "0%";
 
   constructor(private sanitizer: DomSanitizer) { }
