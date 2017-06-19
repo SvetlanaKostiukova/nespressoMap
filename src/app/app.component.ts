@@ -25,6 +25,7 @@ export class AppComponent {
   selectedBlend:number = 0;
   selectedCountry:number = -1;
   currShiftIdx:string = "0px";
+  blendChanged:boolean = true;
   shownItems:number = 8;
   shiftIdx:number = 0;
   offset:number = 0;
@@ -44,17 +45,17 @@ export class AppComponent {
   blends: any[] = [
     {title:"Bukeela ka&nbsp;ethiopia", description:"Это изысканный кофе одной страны произрастания из&nbsp;100% арабики из&nbsp;Эфиопии: арабика Sidamo даёт аромат цветочных нот жасмина, а&nbsp;арабика Moka Boji&nbsp;&mdash; глубокий и&nbsp;пряный вкус, характерный для регионов, где кофе первоначально был дикорастущим.", img:"BUKEELAKAETHIOPIA-300", countries:["ethiopia"], coordX:60, coordY:335},
     {title:"Vivalto lungo", description:"Это сбалансированный бленд стопроцентной арабики из&nbsp;Южной Америки и&nbsp;Африки, отличающийся насыщенным вкусом с&nbsp;нотами обжарки и&nbsp;освежающими нотами жасмина, апельсинового дерева и&nbsp;бергамота.", img:"vivaltolungo-300", countries:["ethiopia", "brasilia", "columbia"], coordX:136, coordY:335},
+    {title:"Envivo Lungo", description:"Самый интенсивный из&nbsp;всех блендов лунго, Envivo Lungo сочетает в&nbsp;себе отборную робусту из&nbsp;Мексики и&nbsp;обработанную особым способом арабику из&nbsp;Индии. В&nbsp;результате получается кофе с&nbsp;легким ароматом имбирного пряника, а&nbsp;также карамельными и&nbsp;древесными нотами.", img:"envivolungo-300", countries:["mexico", "india"], coordX:439, coordY:335},
+    {title:"Roma", description:"Смесь арабики легкой обжарки из&nbsp;Южной и&nbsp;Центральной Америки (в&nbsp;основном&nbsp;&mdash; из&nbsp;Мексики), а&nbsp;также индийской робусты имеет насыщенный вкус. Такой вид обжарки придает бленду Roma сладкие и&nbsp;злаковые ноты, а&nbsp;также добавляет легкую ноту грецкого ореха.", img:"roma-300", countries:["mexico"], coordX:590, coordY:335},
     {title:"Arpeggio", description:"Представляет собой интенсивный бленд, состоящий из&nbsp;100% арабики. Длительная обжарка коста-риканской арабики придает бленду глубокие ноты какао и&nbsp;шоколада, которые прекрасно сочетаются с&nbsp;кремовой и&nbsp;шелковистой текстурой арабики из&nbsp;Бразилии.", img:"apreggio-300", countries:["brasilia", "costa-rica"], coordX:200, coordY:335},
     {title:"Dulsao do&nbsp;Brasil", description:"100% арабика из&nbsp;Бразилии, этот кофе&nbsp;&mdash; это сочетание раздельно обжаренного желтого и&nbsp;красного бурбона&nbsp;&mdash; разновидности арабики, выращенного на&nbsp;высокогорных плантациях Южной Бразилии. Нежный и&nbsp;сбалансированный вкус.", img:"dulsaodobradil-300", countries:["brasilia"], coordX:287, coordY:335},
     {title:"Capriccio", description:"Этот бленд отлично подходит под эспрессо&nbsp;&mdash; у&nbsp;него богатый аромат и&nbsp;злаковые ноты. Capriccio приобрел свой необычный вкус благодаря сочетанию южноамериканской арабики, бразильской арабики с&nbsp;небольшим количеством робусты (Индия). Легкая обжарка придает ему богатый вкус, сохраняя при этом легкую кислинку.", img:"capriccio-300", countries:["brasilia", "columbia", "india"], coordX:363, coordY:335},
     {title:"Volluto", description:"Бразилия и&nbsp;Колумбия. Этот бленд кофе одним из&nbsp;самых первых вошёл в&nbsp;коллекцию Nespresso. Он&nbsp;состоит из&nbsp;превосходной арабики из&nbsp;двух стран-лидеров по&nbsp;производству кофе (Бразилии и&nbsp;Колумбии), одновременно со&nbsp;сладкими нотами и&nbsp;легкой кислинкой, а&nbsp;также фруктовым ароматом.", img:"volluto-300", countries:["brasilia", "columbia"], coordX:439, coordY:335},
+    {title:"Livanto", description:"Чистая арабика из&nbsp;Южной и&nbsp;Центральной Америки, Коста-Рики и&nbsp;Колумбии. Livanto&nbsp;&mdash; это прекрасно сбалансированный эспрессо с&nbsp;характерной карамельной нотой, легким фруктовым ароматом и&nbsp;нотами обжарки.", img:"livanto-300", countries:["costa-rica", "columbia", "gvatemala"], coordX:287, coordY:335},
+    {title:"Kazaar", description:"Это насыщенный и&nbsp;крепкий бленд с&nbsp;густой кремовой текстурой, в&nbsp;составе которого два вида робусты из&nbsp;Гватемалы и&nbsp;Бразилии, а&nbsp;также бразильская арабика Черрадо. Для полного раскрытия потенциала каждого сорта кофе эксперты выбрали раздельный метод обжарки: сильная для робусты и&nbsp;длительная для арабики, что придаёт напитку сладкие ноты.", img:"kazaar-300", countries:["gvatemala", "brasilia"], coordX:363, coordY:335},
     {title:"Fortissio lungo", description:"Бленд из&nbsp;100% арабики: эксперты подобрали идеальные пропорции индийской арабики Мунсун Малабар и&nbsp;колумбийской арабики из&nbsp;региона Каука. Зёрна из&nbsp;Индии получают естественную обработку под действием муссонных ветров, что даёт напитку насыщенный и&nbsp;плотный вкус, богатый сладкими злаковыми нотами, в&nbsp;то&nbsp;время как колумбийская арабика оттеняет бленд лёгкой кислинкой.", img:"fortissiolungo-300", countries:["columbia", "india"], coordX:514, coordY:335},
     {title:"Rosabaya de&nbsp;Colombia", description:"Стопроцентная арабика трех разновидностей (Катурра, Типика и&nbsp;Кастильо), этот кофе раскрывается нежными фруктовыми нотами, имеет легкую кислинку и&nbsp;плотный насыщенный вкус.", img:"rosabayadecolombia-300", countries:["columbia"], coordX:590, coordY:335},
     {title:"Linizio lungo", description:"Стопроцентная арабика. Этот сбалансированный бленд сорта желтый бурбон из&nbsp;Бразилии, который обладает ярко выраженными солодовыми и&nbsp;злаковыми нотами, и&nbsp;арабики с&nbsp;Колумбийского высокогорья, которая делает вкус кофе бархатистым, а&nbsp;его текстуру более гладкой.", img:"liniziolungo-300", countries:["columbia","brasilia"], coordX:590, coordY:335},
-    {title:"Livanto", description:"Чистая арабика из&nbsp;Южной и&nbsp;Центральной Америки, Коста-Рики и&nbsp;Колумбии. Livanto&nbsp;&mdash; это прекрасно сбалансированный эспрессо с&nbsp;характерной карамельной нотой, легким фруктовым ароматом и&nbsp;нотами обжарки.", img:"livanto-300", countries:["costa-rica", "columbia", "gvatemala"], coordX:287, coordY:335},
-    {title:"Kazaar", description:"Это насыщенный и&nbsp;крепкий бленд с&nbsp;густой кремовой текстурой, в&nbsp;составе которого два вида робусты из&nbsp;Гватемалы и&nbsp;Бразилии, а&nbsp;также бразильская арабика Черрадо. Для полного раскрытия потенциала каждого сорта кофе эксперты выбрали раздельный метод обжарки: сильная для робусты и&nbsp;длительная для арабики, что придаёт напитку сладкие ноты.", img:"kazaar-300", countries:["gvatemala", "brasilia"], coordX:363, coordY:335},
-    {title:"Envivo Lungo", description:"Самый интенсивный из&nbsp;всех блендов лунго, Envivo Lungo сочетает в&nbsp;себе отборную робусту из&nbsp;Мексики и&nbsp;обработанную особым способом арабику из&nbsp;Индии. В&nbsp;результате получается кофе с&nbsp;легким ароматом имбирного пряника, а&nbsp;также карамельными и&nbsp;древесными нотами.", img:"envivolungo-300", countries:["mexico", "india"], coordX:439, coordY:335},
-    {title:"Roma", description:"Смесь арабики легкой обжарки из&nbsp;Южной и&nbsp;Центральной Америки (в&nbsp;основном&nbsp;&mdash; из&nbsp;Мексики), а&nbsp;также индийской робусты имеет насыщенный вкус. Такой вид обжарки придает бленду Roma сладкие и&nbsp;злаковые ноты, а&nbsp;также добавляет легкую ноту грецкого ореха.", img:"roma-300", countries:["mexico"], coordX:590, coordY:335},
     {title:"Indria from India", description:"Арабика и&nbsp;робуста, которые входят в&nbsp;состав бленда Indria, произрастают на&nbsp;юге Индии. Эти зерна обладают легкой горчинкой и&nbsp;плотным вкусом с&nbsp;пряными нотками гвоздики, перца и&nbsp;мускатного ореха.", img:"indryiafromindia-300", countries:["india"], coordX:514, coordY:335},
     {title:"Cosi", description:"В&nbsp;бленде Cosi сочетается арабика из&nbsp;Восточной Африки и&nbsp;из&nbsp;Центральной и&nbsp;Южной Америки, благодаря чему кофе обладает злаковыми, фруктовыми и&nbsp;цитрусовыми нотами. За&nbsp;фруктовые ноты как раз отвечает кенийская арабика&nbsp;&mdash; мягко обжаренные зерна высочайшего качества.", img:"cosi-300", countries:["kenia", "latin"], coordX:590, coordY:335},
     {title:"Dharkan", description:"У&nbsp;этого превосходного кофе из&nbsp;стопроцентной арабики из&nbsp;Латинской Америки и&nbsp;Азии изысканный аромат, ярко выраженный вкус с&nbsp;нотами злаков и&nbsp;горького какао, а&nbsp;также нежная бархатистая текстура и&nbsp;приятная горчинка в&nbsp;послевкусии.", img:"dharkan-300", countries:["phillipin", "costa-rica"], coordX:590, coordY:335}
@@ -72,11 +73,71 @@ export class AppComponent {
       var classList = elemClicked.classList;
       countryClicked = classList[0];
     }
-    var selectedBlend = this.blends.find((x) => x.countries.indexOf(countryClicked) == 0);
+    var selectedBlends = this.blends.filter((x) => x.countries.indexOf(countryClicked) == 0);
+    var country = this.countries.find((x) => x.classTitle == countryClicked);
+    console.log(selectedBlends)
 
-    if(selectedBlend){
-      this.onBlendSelected(selectedBlend);
+    if(this.svg && selectedBlends.length){
+      var svgDiv:HTMLElement = document.getElementById("lines");//this.svg.nativeElement;
+
+      var groups = document.querySelectorAll("g.selected");
+      for(var i = 0; i < groups.length; i++){
+        groups[i].classList.remove("selected");
+        groups[i].classList.remove("hidden");
+      }
+
+      this.lines.map((x) => x.style.opacity = '0');
+
+      //remove lines from map
+      for(var j = 0; j < this.lines.length; j++){
+        svgDiv.removeChild(this.lines[j]);
+      }
+      this.lines = [];
+
+      //load new lines
+      
+      this.selectedBlend = this.blends.indexOf(selectedBlends[0]);
+      this.blendChanged = true;
+      setTimeout(() =>{
+        var firstIdx = this.selectedBlend - this.shiftIdx;
+        console.log(firstIdx, this.shiftIdx, this.selectedBlend)
+        // var last = selectedBlends[selectedBlends.length - 1];
+        // var idx = this.blends.indexOf(last);
+        // if(this.shiftIdx + (idx - this.selectedBlend) >= this.shownItems)
+
+        
+        for(var i = 0; i < selectedBlends.length; i++){
+          var blend = selectedBlends[i];
+
+          var idx = this.blends.indexOf(blend);
+          var shiftLength = 100/this.shownItems;
+          var blendShiftIdx = this.shiftIdx + (idx - this.selectedBlend);
+          console.log(idx, blendShiftIdx, idx - this.selectedBlend)
+          var offset = (this.width - 52)*(shiftLength/200 + blendShiftIdx*shiftLength/100) + 13;
+          
+          // var x = ratio == 1? (blend.coordX) * ratio: 
+          var ratio = 650 / (this.width ? this.width: 650);
+          var x = ratio == 1? offset * ratio : (offset + 28) * ratio;
+          var y = ratio == 1? blend.coordY * ratio: 345;
+          var line = this.drawLine(country.coordX, country.coordY, x, y);
+          
+          svgDiv.appendChild(line);
+          this.lines.push(line);
+        }
+        //wait untill lines are added to svg container and show
+        console.log(this.lines)
+        setTimeout(() => {this.lines.map((x) => x.style.opacity = "1")}, 10);
+
+        this.selectPopup(countryClicked);
+        var group = document.querySelector("g." + countryClicked);
+        if(group) {
+          group.classList.add("selected");
+        }
+      }, 10);
     }
+    // if(selectedBlend){
+    //   this.onBlendSelected(selectedBlend);
+    // }
   }
 
   selectPopup(countryClicked: string){
@@ -93,9 +154,9 @@ export class AppComponent {
     this.selectedCountry = this.countries.indexOf(searchCountry);
     
     if(this.selectedCountry > -1){
-      // setTimeout(() => 
-      this.showPopup = true;
-      // , 300);
+      setTimeout(() => 
+      this.showPopup = true
+      , 500);
       var polygon = document.querySelector("polygon#" + countryClicked);
       if(!polygon)
         polygon = document.querySelector("path#" + countryClicked);
@@ -105,6 +166,11 @@ export class AppComponent {
   }
 
   onBlendSelected(blend: any, position:number = 0){
+    if(this.selectedBlend == this.blends.indexOf(blend))
+      this.blendChanged = false;
+    else 
+      this.blendChanged = true;
+      console.log(this.blendChanged)
     this.selectedBlend = this.blends.indexOf(blend);
 
     //wait until content for popup is loaded
@@ -140,8 +206,8 @@ export class AppComponent {
               var ratio = 650 / (this.width ? this.width: 650);
               // console.log(ratio, this.width)
               // var x = ratio == 1? (blend.coordX) * ratio: 
-              var x = (this.offset + 28) * ratio;
-              var y = ratio == 1? blend.coordY * ratio: 463;
+              var x = ratio == 1? this.offset * ratio : (this.offset + 28) * ratio;
+              var y = ratio == 1? blend.coordY * ratio: 345;
               var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
               svgDiv.appendChild(line);
               this.lines.push(line);
@@ -152,7 +218,8 @@ export class AppComponent {
 
           //show popup and pimps with country names
           setTimeout(() => {
-            setTimeout(() => this.selectPopup(blend.countries[0]), 500);
+           // setTimeout(() => 
+           this.selectPopup(blend.countries[0])//, 500);
             for(var i = 0; i < blend.countries.length; i++){
               var group = document.querySelector("g." + blend.countries[i]);
               if(group) {
@@ -170,11 +237,11 @@ export class AppComponent {
     if(this.svg && blend){
       var svgDiv:HTMLElement = document.getElementById("lines");//this.svg.nativeElement;
 
-      var groups = document.querySelectorAll("g.selected");
-      for(var i = 0; i < groups.length; i++){
-        groups[i].classList.remove("selected");
-        groups[i].classList.remove("hidden");
-      }
+      // var groups = document.querySelectorAll("g.selected");
+      // for(var i = 0; i < groups.length; i++){
+      //   groups[i].classList.remove("selected");
+      //   groups[i].classList.remove("hidden");
+      // }
       this.lines.map((x) => x.style.opacity = '0');
 
       //remove lines from map
@@ -190,8 +257,8 @@ export class AppComponent {
         if(countrySearch){
           var ratio = 650 / (this.width ? this.width: 650);
           // var x = ratio == 1? (blend.coordX) * ratio: 
-          var x = (this.offset + 28) * ratio;
-          var y = ratio == 1? blend.coordY * ratio: 463;
+          var x = ratio == 1? this.offset * ratio : (this.offset + 28) * ratio;
+          var y = ratio == 1? blend.coordY * ratio: 345;
           var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
           
           svgDiv.appendChild(line);
@@ -200,25 +267,27 @@ export class AppComponent {
       }
       //wait untill lines are added to svg container and show
       setTimeout(() => {this.lines.map((x) => x.style.opacity = "1")}, 10);
-      setTimeout(() => {
-        // this.selectPopup(blend.countries[0]);
-        for(var i = 0; i < blend.countries.length; i++){
-          var group = document.querySelector("g." + blend.countries[i]);
-          if(group) {
-            group.classList.add("selected");
-          }
-        }
-      }, 300);
+      // setTimeout(() => {
+      //   // this.selectPopup(blend.countries[0]);
+      //   for(var i = 0; i < blend.countries.length; i++){
+      //     var group = document.querySelector("g." + blend.countries[i]);
+      //     if(group) {
+      //       group.classList.add("selected");
+      //     }
+      //   }
+      // }, 300);
     }
   }
 
   shiftChanged(shiftIdx: number){
-    console.log("shift changed " + shiftIdx)
+    console.log("shift changed " + shiftIdx, this.blendChanged)
     this.shiftIdx = shiftIdx;
     var shiftLength = 100/this.shownItems;
     this.currShiftIdx = "calc(" + (shiftLength/2 + shiftLength*shiftIdx) + "% - 7px)";
     this.offset = (this.width - 52)*(shiftLength/200 + shiftIdx*shiftLength/100) + 13;
-    this.updateLines();
+    if(!this.blendChanged)
+      this.updateLines();
+    else this.blendChanged = false;
   }
 
   drawLine(x1, y1, x2, y2){
@@ -240,6 +309,9 @@ export class AppComponent {
     var prevPolygon = document.querySelector("polygon.selected");
     if(prevPolygon)
       prevPolygon.classList.remove("selected");
+    var prevPath = document.querySelector("path.selected");
+    if(prevPath)
+      prevPath.classList.remove("selected");
   }
 
   ngAfterViewInit(){
@@ -257,6 +329,8 @@ export class AppComponent {
         this.width = app.clientWidth;
         if(this.width < 650)
           this.shownItems = 4;
+        else
+          this.shownItems = 8;
         
         var shiftLength = 100/this.shownItems;
         this.offset = (this.width - 52)*(shiftLength/200 + this.shiftIdx*shiftLength/100) + 13;

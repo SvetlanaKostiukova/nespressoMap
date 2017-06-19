@@ -13,14 +13,14 @@ export class PanelComponent implements OnInit, OnChanges {
   firstIdx:number = 0;
   leftShift:string = "0%";
   selectedIdx:number = -1;
-  shownItems: number = 8;
+  @Input() shownItems: number = 8;
   @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-      this.shiftChanged.emit(0);//"calc(12.5% - 7px)");
+      // this.shiftChanged.emit(0);//"calc(12.5% - 7px)");
   }
 
   sanitize(imgName: string){
@@ -30,7 +30,8 @@ export class PanelComponent implements OnInit, OnChanges {
 
   ngOnChanges(chngs){
     if(chngs.selectedBlend){
-      var prevBlend = this.blends[this.selectedIdx];//chngs.selectedBlend.previousValue;
+      var prevBlend = chngs.selectedBlend.previousValue;
+      // this.blends[this.selectedIdx];//chngs.selectedBlend.previousValue;
       var currBlend = chngs.selectedBlend.currentValue;
       if(JSON.stringify(prevBlend) != JSON.stringify(currBlend)){
         console.log("on changes")
@@ -54,6 +55,15 @@ export class PanelComponent implements OnInit, OnChanges {
         }
       }
     }
+    if(chngs.shownItems){
+      var shiftIdx = this.selectedIdx - this.firstIdx;
+      console.log(shiftIdx, this.firstIdx);
+      this.firstIdx = Math.floor(shiftIdx/this.shownItems)*4;
+      this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
+      shiftIdx = this.selectedIdx - this.firstIdx;
+      console.log(shiftIdx, this.firstIdx);
+      this.shiftChanged.emit(shiftIdx);
+    }
   }
 
   onSelect(e:any, blend: any){
@@ -61,8 +71,10 @@ export class PanelComponent implements OnInit, OnChanges {
       console.log("on select")
       this.selectedIdx = this.blends.indexOf(blend);
       var shift = this.selectedIdx - this.firstIdx;
-      this.shiftChanged.emit(shift);//"calc(" + (12.5 + 25*shift) + "% - 7px)");
-      setTimeout(() => this.onBlendSelected.emit(blend), 300);
+      //this.shiftChanged.emit(shift);//"calc(" + (12.5 + 25*shift) + "% - 7px)");
+      // setTimeout(() => 
+      this.onBlendSelected.emit(blend)
+      // , 300);
     }
   }
 
@@ -75,9 +87,11 @@ export class PanelComponent implements OnInit, OnChanges {
     if(this.selectedIdx < this.firstIdx && this.selectedIdx > -1){
       // this.selectedIdx = this.firstIdx;
       this.onSelect(undefined, this.blends[this.firstIdx]);//selectedIdx]);
+      return;
     } else if(this.selectedIdx > this.firstIdx + (this.shownItems - 1)){//3) {
       // this.selectedIdx = this.firstIdx + 3;
       this.onSelect(undefined, this.blends[this.firstIdx + (this.shownItems - 1)]);//3]);//this.selectedIdx]);
+      return;
     }
     var shiftIdx = this.selectedIdx - this.firstIdx;
     this.shiftChanged.emit(shiftIdx);//"calc(" + (12.5 + 25*shiftIdx) + "% - 7.5px)")
