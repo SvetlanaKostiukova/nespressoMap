@@ -56,13 +56,15 @@ export class PanelComponent implements OnInit, OnChanges {
       }
     }
     if(chngs.shownItems){
-      var shiftIdx = this.selectedIdx - this.firstIdx;
-      console.log(shiftIdx, this.firstIdx);
-      this.firstIdx = Math.floor(shiftIdx/this.shownItems)*4;
-      this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
-      shiftIdx = this.selectedIdx - this.firstIdx;
-      console.log(shiftIdx, this.firstIdx);
-      this.shiftChanged.emit(shiftIdx);
+      if(this.shownItems != chngs.shownItems.currentValue){
+        var shiftIdx = this.selectedIdx - this.firstIdx;
+        console.log(shiftIdx, this.firstIdx);
+        this.firstIdx = Math.floor(shiftIdx/this.shownItems)*4;
+        this.leftShift = -(100/this.shownItems)*this.firstIdx + "%";
+        shiftIdx = this.selectedIdx - this.firstIdx;
+        console.log(shiftIdx, this.firstIdx);
+        this.shiftChanged.emit(shiftIdx);
+      }
     }
   }
 

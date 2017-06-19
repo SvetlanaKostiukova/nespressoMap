@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { Component, OnInit, OnChanges, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { trigger, state, transition, animate, style } from "@angular/animations";
 
@@ -29,16 +30,25 @@ import { trigger, state, transition, animate, style } from "@angular/animations"
 export class PopupComponent implements OnInit, OnChanges {
   @Input() country:any;
   @Output() onClosePopup:EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild('popup') popupDiv: ElementRef;
+  @Input() selectedBlends:any[] = [];
+  currentBlend:number = 0;
+  leftShift:string = "0%";
+  @ViewChild('popup') popupDiv:ElementRef;
 
   isRight:boolean = false;
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    this.leftShift = "calc(12.5% - 7px)";
   }
 
   ngOnChanges(){
+  }
+
+  sanitize(imgName: string){
+    var path = "url('assets/images/" + imgName + ".png')";
+    return this.sanitizer.bypassSecurityTrustStyle(path);
   }
 
   calculateLeft(){
@@ -72,5 +82,9 @@ export class PopupComponent implements OnInit, OnChanges {
         popup.style.left = this.country.popupY + "px";//this.calculateLeft();
       }
     }
+  }
+
+  onShift(forward: number){
+    this.currentBlend += forward;
   }
 }

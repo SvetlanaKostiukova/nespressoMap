@@ -7,5 +7,16 @@
       <div class="close" (click)="onClose()"></div>
     </header>
     <main [innerHTML]="country.description"></main>
+    <footer *ngIf="selectedBlends.length">
+      <div class="panel">
+        <div class="arrow left" (click)="onShift(-1)"></div>
+        <div class="blend">
+          <div class="icon" [style.background-image]="sanitize(selectedBlends[currentBlend].img)"></div>
+          <div class="title" [innerHTML]="selectedBlends[currentBlend].title"></div>
+        </div>
+        <div class="arrow right" (click)="onShift(1)"></div>
+      </div>
+      <app-blend [blend]="selectedBlends[currentBlend]" [leftShift]="leftShift"></app-blend>
+    </footer>
   </div>
 </div>

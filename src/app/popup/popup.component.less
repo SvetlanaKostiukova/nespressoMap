@@ -1,6 +1,6 @@
 .popup{
     position:absolute;
-    width:384px;//24px;
+    width:364px;//84px;//24px;
     height:auto;
     top:0;
     left:0;
@@ -9,29 +9,104 @@
     transition: top, left, height .3s;
 
     @media(max-width:649px){
-        position: relative;
+        // position: relative;
         top:0 !important;
         left:0 !important;
         width:100%;
-        min-height:100vh/3;
-        background-color: transparent;
+        height:100%;//vh;
+        z-index:25;
+        // min-height:100vh/3;
+        background-color:transparent;
         // transition: height .5s;
         //transition: top, left 0s;
     }
 
-    .arrow{
-        position: absolute;
-        width:0;
-        height:0;
-        left:100%;
-        top:calc(~"40% + 5px");
-        border-top:10px solid transparent;
-        border-bottom:10px solid transparent;
-        border-left:13px solid #673766;
-        user-select: none;
+    // .arrow{
+    //     position: absolute;
+    //     width:0;
+    //     height:0;
+    //     left:100%;
+    //     top:calc(~"40% + 5px");
+    //     border-top:10px solid transparent;
+    //     border-bottom:10px solid transparent;
+    //     border-left:13px solid #673766;
+    //     user-select: none;
+
+    //     @media(max-width:649px){
+    //         display: none;
+    //     }
+    // }
+
+    footer{
+        display: none;
+        .panel{
+            display: flex;
+            justify-content: space-between;
+            top:-20px;
+            padding: 0 25px;
+
+            .arrow{
+                height:20px;
+                width:12px;
+                margin-top:15px;
+                z-index:20;
+                transition: opacity .3s;
+                cursor:pointer;
+                &.left{
+                    left:0;
+                    //margin-left:-12px;
+                    background:url("./../../assets/images/left.svg") no-repeat center right;
+                    background-size: cover;
+                }
+
+                &.right{
+                    right:0;
+                    //margin-right:-12px;
+                    background:url("./../../assets/images/right.svg") no-repeat center left;
+                    background-size: cover;
+                }
+
+                &.blocked{
+                    opacity:0.7;
+                }
+            }
+
+            .blend{
+                width:calc(~"100% - 32px");
+                overflow: hidden;
+                display: flex;
+                justify-content: space-between;
+
+                .icon{
+                    margin:0 auto;
+                    width:68px;
+                    height:48px;
+                    background: no-repeat center;
+                    background-size:contain;
+                    transition:transform .3s;//width, height .3s;
+
+                    @media(max-width:649px){
+                        opacity:0.7;
+                        transition: opacity 3s;
+                    }
+                }
+
+                .title{
+                    padding-top:5px;
+                    font: 14px/16px 'Roboto Condensed';
+                    color: #8D734A;
+                    text-align:center;
+                    cursor:default;
+
+                    @media(max-width:649px){
+                        padding-top: 0;
+                    }
+                }
+            }
+        }
 
         @media(max-width:649px){
-            display: none;
+            display: block;
         }
     }
 
@@ -47,7 +122,10 @@
         @media(max-width:649px){
             left:0;
             top:0;
-            min-height: 100vh/3;
+            padding:0;
+            height:100%;
+            width:100%;//calc(~"100% - 30px");
+            //min-height: 100vh/3;
             background-color:#F2DEBB;
         }
 
@@ -75,12 +153,20 @@
                     opacity:0.8;
                 }
             }
+
+            @media(max-width:649px){
+                padding:15px 15px 5px;
+            }
         }
 
         main{
             font: 14px/16px 'Roboto Condensed';
             color: #673766;
             cursor:default;
+
+            @media(max-width:649px){
+                padding:0 15px 15px;
+            }
         }
     }
 
