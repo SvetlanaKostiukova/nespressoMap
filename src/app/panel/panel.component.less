@@ -6,35 +6,25 @@
     padding: 0 25px;
 
     @media(max-width:649px){
-        //width:100%;
-        //top:0;
-        // padding:10px 6px;
-        top:0;
-        //max-width:calc(~"100% - 32px");
         padding:10px;
-        //overflow:hidden;
     }
     
     .arrow{
-        //position:absolute;  
-        //display: none;
         height:20px;
         width:12px;
         margin-top:15px;
-        //min-width:11px;
         z-index:20;
         transition: opacity .3s;
         cursor:pointer;
+
         &.left{
             left:0;
-            //margin-left:-12px;
             background:url("./../../assets/images/left.svg") no-repeat center right;
             background-size: cover;
         }
 
         &.right{
             right:0;
-            //margin-right:-12px;
             background:url("./../../assets/images/right.svg") no-repeat center left;
             background-size: cover;
         }
@@ -45,12 +35,8 @@
     }
 
     .list{
-        width:100%;
-
-        //@media(max-width:649px){
-            width:calc(~"100% - 32px");
-            overflow: hidden;
-        //}
+        width:calc(~"100% - 32px");
+        overflow: hidden;
     }
     ul{
         display: flex;
@@ -60,15 +46,11 @@
         padding:0;
         list-style: none;
 
-        // @media(max-width:649px){
-            position: relative;
-            max-width:100%;//calc(~"100% - 50px");
-            //overflow:hidden; 
-            transition: left .3s;
-        // }
+        position: relative;
+        max-width:100%;
+        transition: left .3s;
 
         .blend-item{
-            // width:70px;
             height:92px;
             width:12.5%;
             min-width:12.5%;
@@ -86,15 +68,6 @@
                 width:25%;
                 min-width:25%;
                 height: 100px;
-                // pointer-events: none;
-                // transition: opacity .3s;
-
-                // &.current{
-                //     //margin:0 2.5%;
-                //     //margin-left:2.5%;
-                //     opacity: 1;
-                //     pointer-events: all;
-                // }
             }
 
             .icon{
@@ -103,16 +76,10 @@
                 height:60px;
                 background: no-repeat center;
                 background-size:contain;
-                transition:transform .3s;//width, height .3s;
-
-                @media(max-width:649px){
-                    opacity:0.7;
-                    transition: opacity 3s;
-                }
+                transition:transform .3s;
             }
 
             .title{
-                // padding-top:5px;
                 font: 14px/16px 'Roboto Condensed';
                 color: #8D734A;
                 text-align:center;
@@ -127,21 +94,13 @@
             &.selected{
                 .icon{
                     transform: scale(1.16, 1.16);
-                    // width:56px;
-                    // height:56px;
                 }
 
                 .title{
-                    //padding-top:10px;
                     color:#333333;
                 }
 
                 @media(max-width:649px){
-                    .icon{
-                        transform: none;
-                        opacity:1;
-                    }
-
                     .title{
                         font-family: 'Roboto Slab';
                         font-weight: bold;

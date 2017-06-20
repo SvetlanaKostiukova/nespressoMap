@@ -2,7 +2,7 @@
     position:relative;
     top:-10px;
     width:540px;
-    height:auto;//140px;
+    height:auto;
     border:10px solid #f4e1c1;
     background-color:white;
     margin:0 auto;
@@ -33,10 +33,10 @@
 
     @media(max-width:649px){
         width:calc(~"100% - 40px");
-        top:0px;
-        height:calc(~"100% - 100vw*211/320 - 160px");
+        top:-20px;
+        // height:calc(~"100% - 100vw*211/320 - 160px");
         border:none;
-        min-height: 60vh;
+        height:100vh;
 
         .arrow-div{
             width:calc(~"100% - 52px");
@@ -48,7 +48,6 @@
         &.empty{
             border:none;
             background-color:white;
-            // min-height:40vh;
             min-height:calc(~"100% - 100vw*211/320 - 160px");
 
             .arrow{

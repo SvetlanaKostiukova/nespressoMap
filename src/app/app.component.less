@@ -1,66 +1,47 @@
 @ratio:211/320;
-@svgratio:257.219/352;//475/650;
+@svgratio:257.219/352;
 @ratio2:370/650;
 
 .app{
     width:650px;
-    height:690px;//720px;
+    height:690px;
     background: url("./../assets/images/bg.png");
     background-size:cover;
 
     @media(max-width:649px){
         width:100%;
         overflow: hidden;
-        height:100%;//auto;
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: space-between;
-
-        &.popup{
-
-            .map-bg{
-                // position: absolute;
-                // visibility: hidden;
-            }
-        }
+        height:100%;
     }
 
     .map-bg{
         position: relative;
         width:100%;
         height:100%*@ratio;
-        max-height:370px;//37px;//387px;
-        overflow:hidden;//auto;
-        //height:379px;
+        max-height:370px;
+        overflow:hidden;
         background: url("./../assets/images/map.png") no-repeat top center;
         background-size:100% auto;
         transition: height .3s;
 
         @media(max-width:649px){
-            //height:50%;
             height:110vw*@ratio;
             background-size: 110vw auto;
             background-position: -2vw top;
-            // max-height:10vw*@ratio + 370px;
-            // overflow: visible;
-            // max-h
-            //min-height: calc(~"100vh/2");
+            overflow: visible;
         }
 
         svg{
             position:absolute;
             width:100%;
-            // top:40px;
             height:auto;
-            // max-height:475px;
-            min-height:375px;//483px;
+            min-height:375px;
 
             @media(max-width:649px){
                 min-height:initial;
-                // height:110vw*475/650;
                 width:110vw;
-                margin-left:-2vw;//10vw;
-                // max-height:100vw*@svgratio;//475px - 10vw*@svgratio;
+                margin-left:-2vw;
+                max-height:calc(~"100% + 20px");
             }
             polygon, path{
                 cursor: pointer;
@@ -70,7 +51,6 @@
                 transition: fill .3s;
                 &.hover{
                     z-index: 12;
-                    //display: none;
                 }
                 
                 &:hover,
@@ -81,7 +61,7 @@
 
             path:not(.cls-2){
                 transition: opacity .3s;
-                //animation: jump 2s infinite;
+                animation: jump 2s infinite;
 
                 @keyframes jump{
                     0%, 5%, 15%, 25%, 50%, 90%, 100% {
@@ -133,25 +113,6 @@
                     opacity: 0;
                 }
             }
-
-            // g:hover{
-            //     &.india,
-            //     &.ethiopia,
-            //     &.kenia,
-            //     &.brasilia,
-            //     &.columbia,
-            //     &.gvatemala,
-            //     &.costa-rica,
-            //     &.mexico{
-            //         path{
-            //             display: none;
-            //         }
-
-            //         .hover{
-            //             display: block;
-            //         }
-            //     }
-            // }
         }
     }
 }

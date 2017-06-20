@@ -31,6 +31,7 @@ export class PopupComponent implements OnInit, OnChanges {
   @Input() country:any;
   @Output() onClosePopup:EventEmitter<any> = new EventEmitter<any>();
   @Input() selectedBlends:any[] = [];
+  @Input() showPopup: boolean = false;
   currentBlend:number = 0;
   leftShift:string = "0%";
   @ViewChild('popup') popupDiv:ElementRef;

@@ -25,10 +25,11 @@ export class AppComponent {
   selectedBlend:number = 0;
   selectedBlends:any[] = [];
   selectedCountry:number = -1;
+  countryClicked:boolean = false;
   lastIdx:number = 0;
   currShiftIdx:string = "0px";
   blendChanged:boolean = true;
-  shownItems:number = 8;
+  shownItems:number = window.innerWidth > 649 ? 8: 4;
   shiftIdx:number = 0;
   offset:number = 0;
   lines:any[] = [];
@@ -64,6 +65,7 @@ export class AppComponent {
   ];
 
   onClick(e: any){
+    this.countryClicked = true;
     var countryClicked;
     var elemClicked = e.target;
     if(elemClicked instanceof SVGPolygonElement){
@@ -103,10 +105,6 @@ export class AppComponent {
       this.blendChanged = true;
       setTimeout(() =>{
         var firstIdx = this.selectedBlend - this.shiftIdx;
-        // var last = selectedBlends[selectedBlends.length - 1];
-        // var idx = this.blends.indexOf(last);
-        // if(this.shiftIdx + (idx - this.selectedBlend) >= this.shownItems)
-
         
         for(var i = 0; i < selectedBlends.length; i++){
           var blend = selectedBlends[i];
@@ -116,10 +114,14 @@ export class AppComponent {
           var blendShiftIdx = this.shiftIdx + (idx - this.selectedBlend);
           var offset = (this.width - 52)*(shiftLength/200 + blendShiftIdx*shiftLength/100) + 13;
           
-          // var x = ratio == 1? (blend.coordX) * ratio: 
           var ratio = 650 / (this.width ? this.width: 650);
-          var x = (offset + this.width*0.01) * ratio;//ratio == 1? (offset + ) * ratio : (offset + 14) * ratio;
-          var y = ratio == 1? blend.coordY * ratio: (blend.coordY * ratio - (this.width*0.1*475/650));//365 * ratio;
+          var mapHeight = this.width * 1.1 * 211/ 320;
+          if(mapHeight >= 370)
+            mapHeight = 370;
+          
+          mapHeight *= ratio;
+          var x = (offset + this.width*0.01) * ratio;
+          var y = ratio == 1? blend.coordY * ratio: (mapHeight + 20);
           var line = this.drawLine(country.coordX, country.coordY, x, y);
           
           svgDiv.appendChild(line);
@@ -128,16 +130,13 @@ export class AppComponent {
         //wait untill lines are added to svg container and show
         setTimeout(() => {this.lines.map((x) => x.style.opacity = "1")}, 10);
 
-        this.selectPopup(countryClicked);
         var group = document.querySelector("g." + countryClicked);
         if(group) {
           group.classList.add("selected");
         }
+        setTimeout(() => this.selectPopup(countryClicked), 500);
       }, 10);
     }
-    // if(selectedBlend){
-    //   this.onBlendSelected(selectedBlend);
-    // }
   }
 
   selectPopup(countryClicked: string){
@@ -166,6 +165,7 @@ export class AppComponent {
   }
 
   onBlendSelected(blend: any, position:number = 0){
+    this.countryClicked = false;
     if(this.selectedBlend == this.blends.indexOf(blend))
       this.blendChanged = false;
     else 
@@ -176,7 +176,7 @@ export class AppComponent {
     //wait until content for popup is loaded
     setTimeout(()=>{
       if(this.svg && blend){
-        var svgDiv:HTMLElement = document.getElementById("lines");//this.svg.nativeElement;
+        var svgDiv:HTMLElement = document.getElementById("lines");
 
         //hide popup
         this.selectedCountry = -1;
@@ -204,10 +204,12 @@ export class AppComponent {
             var countrySearch = this.countries.find((x) => x.classTitle == country);
             if(countrySearch){
               var ratio = 650 / (this.width ? this.width: 650);
-              // console.log(ratio, this.width)
-              // var x = ratio == 1? (blend.coordX) * ratio: 
-              var x = (this.offset + this.width*0.01)*ratio;//ratio == 1? (this.offset + 14) * ratio : (this.offset + 14) * ratio;
-              var y = ratio == 1? blend.coordY * ratio: (blend.coordY * ratio - (this.width*0.1*475/650));//365 * ratio;
+              var mapHeight = this.width * 1.1 * 211/ 320;
+              if(mapHeight > 370)
+                mapHeight = 370;
+              mapHeight *= ratio;
+              var x = (this.offset + this.width*0.01)*ratio;
+              var y = ratio == 1? blend.coordY * ratio: (mapHeight + 20);
               var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
               svgDiv.appendChild(line);
               this.lines.push(line);
@@ -219,8 +221,8 @@ export class AppComponent {
           //show popup and pimps with country names
           setTimeout(() => {
            // setTimeout(() => 
-            if(this.width >= 650)
-              this.selectPopup(blend.countries[0])//, 500);
+            // if(this.width >= 650)
+            //   this.selectPopup(blend.countries[0])//, 500);
             for(var i = 0; i < blend.countries.length; i++){
               var group = document.querySelector("g." + blend.countries[i]);
               if(group) {
@@ -233,16 +235,57 @@ export class AppComponent {
     }, 300);
   }
 
+  updateCountryLines(){
+    var country = this.countries[this.selectedCountry];
+    if(this.svg && this.selectedBlends.length){
+      var svgDiv:HTMLElement = document.getElementById("lines");
+      this.lines.map((x) => x.style.opacity = '0');
+
+      //remove lines from map
+      for(var j = 0; j < this.lines.length; j++){
+        svgDiv.removeChild(this.lines[j]);
+      }
+      this.lines = [];
+
+      //load new lines
+      
+      this.lastIdx = this.blends.indexOf(this.selectedBlends[this.selectedBlends.length - 1]);
+      this.blendChanged = true;
+      setTimeout(() =>{
+        var firstIdx = this.selectedBlend - this.shiftIdx;
+        
+        for(var i = 0; i < this.selectedBlends.length; i++){
+          var blend = this.selectedBlends[i];
+
+          var idx = this.blends.indexOf(blend);
+          var shiftLength = 100/this.shownItems;
+          var blendShiftIdx = this.shiftIdx + (idx - this.selectedBlend);
+          var offset = (this.width - 52)*(shiftLength/200 + blendShiftIdx*shiftLength/100) + 13;
+          
+          var ratio = 650 / (this.width ? this.width: 650);
+          var mapHeight = this.width * 1.1 * 211/ 320;
+          if(mapHeight >= 370)
+            mapHeight = 370;
+          
+          mapHeight *= ratio;
+          var x = (offset + this.width*0.01) * ratio;
+          var y = ratio == 1? blend.coordY * ratio: (mapHeight + 20);
+          var line = this.drawLine(country.coordX, country.coordY, x, y);
+          
+          svgDiv.appendChild(line);
+          this.lines.push(line);
+        }
+        //wait untill lines are added to svg container and show
+        setTimeout(() => {this.lines.map((x) => x.style.opacity = "1")}, 10);
+      }, 300);
+    }
+  }
+
   updateLines(){
     var blend = this.blends[this.selectedBlend];
     if(this.svg && blend){
-      var svgDiv:HTMLElement = document.getElementById("lines");//this.svg.nativeElement;
-
-      // var groups = document.querySelectorAll("g.selected");
-      // for(var i = 0; i < groups.length; i++){
-      //   groups[i].classList.remove("selected");
-      //   groups[i].classList.remove("hidden");
-      // }
+      var svgDiv:HTMLElement = document.getElementById("lines");
+      
       this.lines.map((x) => x.style.opacity = '0');
 
       //remove lines from map
@@ -257,10 +300,12 @@ export class AppComponent {
         var countrySearch = this.countries.find((x) => x.classTitle == country);
         if(countrySearch){
           var ratio = 650 / (this.width ? this.width: 650);
-          // var ratioVertical = 
-          // var x = ratio == 1? (blend.coordX) * ratio: 
-          var x = (this.offset + this.width*0.01)*ratio;//ratio == 1? (this.offset + 14) * ratio : (this.offset + 14) * ratio;
-          var y = ratio == 1? blend.coordY * ratio: (blend.coordY * ratio - (this.width*0.1*475/650));//365 * ratio;
+          var mapHeight = this.width * 1.1 * 211/ 320;
+          if(mapHeight > 370)
+            mapHeight = 370;
+          mapHeight *= ratio;
+          var x = (this.offset + this.width*0.01)*ratio;
+          var y = ratio == 1? blend.coordY * ratio: (mapHeight + 20);
           var line = this.drawLine(x, y, countrySearch.coordX, countrySearch.coordY);
           
           svgDiv.appendChild(line);
@@ -269,20 +314,10 @@ export class AppComponent {
       }
       //wait untill lines are added to svg container and show
       setTimeout(() => {this.lines.map((x) => x.style.opacity = "1")}, 10);
-      // setTimeout(() => {
-      //   // this.selectPopup(blend.countries[0]);
-      //   for(var i = 0; i < blend.countries.length; i++){
-      //     var group = document.querySelector("g." + blend.countries[i]);
-      //     if(group) {
-      //       group.classList.add("selected");
-      //     }
-      //   }
-      // }, 300);
     }
   }
 
   shiftChanged(shiftIdx: number){
-    console.log("shift changed " + shiftIdx, this.blendChanged)
     this.shiftIdx = shiftIdx;
     var shiftLength = 100/this.shownItems;
     this.currShiftIdx = "calc(" + (shiftLength/2 + shiftLength*shiftIdx) + "% - 7px)";
@@ -303,7 +338,7 @@ export class AppComponent {
   }
 
   onClosePopup(e: any){
-    this.selectedCountry = -1;
+    // this.selectedCountry = -1;
     setTimeout(() => this.showPopup = false, 300);
     var group = document.querySelector("g.hidden");
     if(group)
@@ -324,13 +359,10 @@ export class AppComponent {
     var shiftLength = 100/this.shownItems;
     this.offset = (this.width - 52)*shiftLength/200 + 13;
     this.currShiftIdx = "calc(" + (shiftLength/2 + shiftLength*this.shiftIdx) + "% - 7px)";
-    
-    //this.onBlendSelected(this.blends[0]);//{blend: this.blends[0], x:60, y:387});
-
+   
     window.addEventListener("resize", (e) =>{
       if(this.width != app.clientWidth) {
-        this.showPopup = false;
-        this.selectedCountry = -1;
+        
         this.width = app.clientWidth;
         if(this.width < 650)
           this.shownItems = 4;
@@ -338,13 +370,12 @@ export class AppComponent {
           this.shownItems = 8;
         
         var shiftLength = 100/this.shownItems;
-        console.log(this.shiftIdx)
-        // var firstIdx = this.selectedBlend - this.shiftIdx;
-        // firstIdx = 
-        //this.shiftIdx = Math.floor(this.shiftIdx/this.shownItems);
         this.offset = (this.width - 52)*(shiftLength/200 + this.shiftIdx*shiftLength/100) + 13;
         this.currShiftIdx = "calc(" + (shiftLength/2 + shiftLength*this.shiftIdx) + "% - 7px)";
-        this.updateLines();//.onBlendSelected(this.blends[this.selectedBlend]);
+        if(this.countryClicked)
+          this.updateCountryLines();
+        else
+          this.updateLines();
       }
     })
   }

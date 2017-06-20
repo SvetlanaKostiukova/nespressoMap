@@ -14,7 +14,7 @@ export class PanelComponent implements OnInit, OnChanges {
   leftShift:string = "0%";
   selectedIdx:number = -1;
   @Input() lastIdx:number = -1;
-  @Input() shownItems: number = 8;
+  @Input() shownItems: number =  window.innerWidth > 649 ? 8: 4;
   @Output() shiftChanged: EventEmitter<any> = new EventEmitter<any>();
   @Output() onBlendSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -30,6 +30,7 @@ export class PanelComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(chngs){
+    console.log(chngs)
     if(chngs.selectedBlend){
       var prevBlend = chngs.selectedBlend.previousValue;
       // this.blends[this.selectedIdx];//chngs.selectedBlend.previousValue;
@@ -59,8 +60,7 @@ export class PanelComponent implements OnInit, OnChanges {
           this.shiftChanged.emit(shiftIdx);//"calc(" + (12.5 + 25*shiftIdx) + "% - 7px)")
         }
       }
-    }
-    if(chngs.shownItems){
+    } else if(chngs.shownItems){
       if(chngs.shownItems.previousValue != chngs.shownItems.currentValue){
         var shift;
         if(this.selectedIdx > this.firstIdx + (this.shownItems - 1)){//3){
