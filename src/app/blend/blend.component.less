@@ -59,13 +59,16 @@
     .content{
         position: absolute;
         top:20px;
+        width:calc(~"100% - 40px");
 
         &.selected{
             position: static;
+            width:100%;
         }
     }
 
     header{
+        // position:relative;
         display: flex;
         justify-content: space-between;
         padding-bottom: 15px;
@@ -93,6 +96,9 @@
 
         //.right{
             a{
+                // position:absolute;
+                // right:0;
+                // top:0;
                 cursor:pointer;
                 transition:opacity .3s;
                 .nespresso{
